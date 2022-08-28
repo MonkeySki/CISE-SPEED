@@ -1,5 +1,5 @@
 const express = require('express');
-// const cors = require('cors');
+const cors = require('cors');
 const connectDB = require('./config/db');
 
 // // routes
@@ -8,14 +8,14 @@ const connectDB = require('./config/db');
 const app = express();
 const port = process.env.PORT || 8080;
 
-// // cors config - allow same origin
-// const corsOptions = {
-//   origin: true,
-//   credentials: true,
-// };
+// cors config - allow same origin
+const corsOptions = {
+  origin: true,
+  credentials: true,
+};
 
-// // // init cors
-// app.use(cors(corsOptions));
+// // init cors
+app.use(cors(corsOptions));
 
 // init body parser
 app.use(express.json());
