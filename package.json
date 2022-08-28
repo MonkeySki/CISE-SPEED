@@ -15,7 +15,8 @@
     "config": "^3.3.7",
     "express": "^4.18.1",
     "mongoose": "^6.5.2",
-    "validation": "^0.0.1"
+    "validation": "^0.0.1",
+    "cors": "2.8.5"
   },
   "scripts": {
     "prepare-backend": "cd backend && npm install",
