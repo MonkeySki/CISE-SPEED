@@ -14,7 +14,7 @@ const corsOptions = {
   credentials: true,
 };
 
-// init cors
+// // init cors
 app.use(cors(corsOptions));
 
 // init body parser
