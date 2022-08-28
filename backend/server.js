@@ -28,9 +28,9 @@ app.use(express.json());
 connectDB();
 if (process.env.NODE_ENV === 'production') {
   // serve front-end client from build folder
-  app.use(express.static(__dirname-'backend'+'/frontend/build'));
+  app.use(express.static('app/frontend/build'));
   app.get('*', (req, res) =>{
-    res.sendFile(__dirname-'backend'+'/frontend/build/index.html')
+    res.sendFile('app/frontend/build/index.html')
   });
   
 } else {
