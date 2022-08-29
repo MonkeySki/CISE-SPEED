@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const connectDB = require('./config/db');
+const connectDB = require('../config/db');
 
 // // routes
 // const books = require('./routes/api/books');
@@ -28,9 +28,9 @@ app.use(express.json());
 connectDB();
 if (process.env.NODE_ENV === 'production') {
   // serve front-end client from build folder
-  app.use(express.static('app/frontend/build'));
+  app.use(express.static(__dirname+'./../frontend/build'));
   app.get('*', (req, res) =>{
-    res.sendFile('app/frontend/build/index.html')
+    res.sendFile(__dirname+'./../frontend/build/index.html')
   });
   
 } else {
