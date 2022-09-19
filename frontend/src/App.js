@@ -1,10 +1,12 @@
 import logo from "./logo.svg";
 import "./App.css";
+import ViewAll from "./components/ViewAll";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <ViewAll/>
         <img src={logo} className="App-logo" alt="logo" />
         <p>Brecon is testing things</p>
         <a
