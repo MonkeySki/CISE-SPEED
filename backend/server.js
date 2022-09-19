@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('../config/db');
 
-// // routes
-// const books = require('./routes/api/books');
+// routes
+const articles = require('./routes/articles');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -20,9 +20,8 @@ app.use(cors(corsOptions));
 // init body parser
 app.use(express.json());
 
-// // use routes here
-// //app.use('/api/repo', repo);
-// app.use('/api/books', books);
+// use routes here
+app.use('/articles', articles);
 
 // Connect Database
 connectDB();
