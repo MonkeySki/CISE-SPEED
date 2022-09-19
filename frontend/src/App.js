@@ -8,7 +8,7 @@ function App() {
       <header className="App-header">
         <ViewAll/>
         <img src={logo} className="App-logo" alt="logo" />
-        <p>Brecon is testing things</p>
+        <p>Brecon is testing things!</p>
         <a
           className="App-link"
           href="https://reactjs.org"
