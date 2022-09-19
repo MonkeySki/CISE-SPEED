@@ -1,17 +1,20 @@
 const express = require('express');
+const app = express();
 const cors = require('cors');
 const connectDB = require('../config/db');
 
 // routes
 const articles = require('./routes/articles');
 
-const app = express();
+//articles two testing
+const articles2 = require('./controller/articleController');
+
 const port = process.env.PORT || 8080;
 
 // cors config - allow same origin
 const corsOptions = {
-  origin: true,
-  credentials: true,
+  // origin: true,
+  // credentials: true,
 };
 
 // // init cors
@@ -20,8 +23,13 @@ app.use(cors(corsOptions));
 // init body parser
 app.use(express.json());
 
+
 // use routes here
 app.use('/articles', articles);
+app.post("/submitArticle", articles2.createArticle)
+app.get("/testArticle", articles2.test);
+
+
 
 // Connect Database
 connectDB();

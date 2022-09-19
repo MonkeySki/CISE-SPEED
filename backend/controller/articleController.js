@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Article = require("../model/article");
+const Article = require("../models/article");
 
 //article creation
 
@@ -16,5 +16,9 @@ module.exports = {
             }
             res.json(article);
         });
+    },
+
+    test:(req,res) =>{
+        res.send('Testing that this works')
     }
 };
