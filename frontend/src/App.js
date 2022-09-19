@@ -1,36 +1,46 @@
 import logo from "./logo.svg";
 import "./App.css";
-import ViewAll from "./components/ViewAll";
+
 //Storing values
-import { useState } from "react";
+import { useState, useEffect } from "react";
 //testing axios request and response
-import axios from 'axios';
+import axios from "axios";
+import View from "./components/View";
+
 
 function App() {
-  const [test,setTest]= useState("");
+  const [test, setTest] = useState("");
+  const [post, setPost] = useState("");
 
+  const config = {
+    header: {
+        "Content-Type": "application/json",
+    },
+  };
 
- 
-  axios.get('http://localhost:8080/testArticle')
-  .then((res) => {
-    console.log("__")
-    console.log(res.data)
-    console.log("__")
-    setTest(res.data)
-  }
-  )
+  useEffect(() => {
+    setPost({ word: "Test" });
+    }, [])
 
+  axios.get("http://localhost:8080/testArticle").then((res) => {
+    //Sets up the test path data
+    setTest(res.data);
+  });
+
+  // var word ={dragon:"a"}
+  // axios.post("http://localhost:8080/testPost", word, config)
   return (
     <div className="App">
       <header className="App-header">
-        <ViewAll/>
+        <View></View>
         <img src={logo} className="App-logo" alt="logo" />
         <p>Brecon is testing things</p>
         <h1>Testing a route</h1>
-        <h3>/test route produces:
-        <p>{test}</p>
+        <h3>
+          /test route produces:
+          <p>{test}</p>
         </h3>
-  
+        <button >Send a post</button>
       </header>
     </div>
   );

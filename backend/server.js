@@ -28,6 +28,7 @@ app.use(express.json());
 app.use('/articles', articles);
 app.post("/submitArticle", articles2.createArticle)
 app.get("/testArticle", articles2.test);
+app.post("/testPost", articles2.testPost);
 
 
 
