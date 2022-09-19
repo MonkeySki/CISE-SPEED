@@ -32,7 +32,7 @@
     "test-react": "cd frontend && npm test",
     "start": "node backend/server.js",
     "app": "nodemon backend/server.js",
-    "build": "node backend/server.js",
+    "build": "cd frontend && npm build",
     "heroku-postbuild": "npm run prepare-react && npm run build-react"
   },
   "eslintConfig": {
