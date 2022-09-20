@@ -4,7 +4,7 @@ export default function View() {
   const [post, SetPost] = useState("");
 
   function Send() {
-    var name ="John Doe"
+    var name = {name:"John Doe"}
     axios.post("http://localhost:8080/testPost", name);
     console.log("we end up in here");
   }

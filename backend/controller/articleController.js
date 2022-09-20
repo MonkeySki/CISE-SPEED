@@ -19,18 +19,29 @@ module.exports = {
     },
 
     test:(req,res) =>{
-        res.send('Testing that this works')
+        Post.find((error, data) => {
+            if (error) {
+              return next(error)
+            } else {
+              //Transform card data into json and set as res
+              res.json(data)
+            }
+        // res.send('Testing that this works')
+    })
     },
 
     testPost:(req,res) =>{
         let newPost = req.body;
         var name = {name:"jhon"};
         let post = new Post(name);
+        console.log("Clear?")
         
         post.save((err)=>{
             if(err){
+                console.log("NO")
                 return res.status(400).json(err);
             }
+            console.log("YES?")
             res.json(post);
         });
       

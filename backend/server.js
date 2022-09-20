@@ -1,7 +1,7 @@
 const express = require('express');
-const app = express();
 const cors = require('cors');
 const connectDB = require('../config/db');
+
 
 // routes
 const articles = require('./routes/articles');
@@ -9,16 +9,18 @@ const articles = require('./routes/articles');
 //articles two testing
 const articles2 = require('./controller/articleController');
 
+
+const app = express();
 const port = process.env.PORT || 8080;
 
 // cors config - allow same origin
 const corsOptions = {
-  // origin: true,
-  // credentials: true,
+  origin: true,
+  credentials: true,
 };
 
 // // init cors
-app.use(cors(corsOptions));
+app.use(cors());
 
 // init body parser
 app.use(express.json());
@@ -26,13 +28,13 @@ app.use(express.json());
 
 // use routes here
 app.use('/articles', articles);
-app.post("/submitArticle", articles2.createArticle)
+app.post("/submitArticle", articles2.createArticle);
 app.get("/testArticle", articles2.test);
 app.post("/testPost", articles2.testPost);
 
 
 
-// Connect Database
+// Connect to database
 connectDB();
 if (process.env.NODE_ENV === 'production') {
   // serve front-end client from build folder
