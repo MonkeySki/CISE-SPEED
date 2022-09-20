@@ -8,14 +8,14 @@ export default function View() {
     axios.post("http://localhost:8080/testPost", name);
     console.log("we end up in here");
   }
-  function hell0()
+  function hello()
   {
     console.log("HELLOO")
   }
 
   return (
     <div>
-     <button onClick={hell0}>Console Greeting</button>
+     <button onClick={hello}>Console Greeting</button>
       <button onClick={Send}>Send Post to database</button>
     </div>
   );

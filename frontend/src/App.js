@@ -10,7 +10,6 @@ import View from "./components/View";
 
 function App() {
   const [test, setTest] = useState("");
-  const [post, setPost] = useState("");
 
   const config = {
     header: {
@@ -18,18 +17,13 @@ function App() {
     },
   };
 
-  useEffect(() => {
-    setPost({ word: "Test" });
-    }, [])
 
   axios.get("http://localhost:8080/testArticle").then((res) => {
     //Sets up the test path data
     setTest(res.data);
   });
 
-  // var word ={dragon:"a"}
-  // axios.post("http://localhost:8080/testPost", word, config)
-  return (
+   return (
     <div className="App">
       <header className="App-header">
         <View></View>
