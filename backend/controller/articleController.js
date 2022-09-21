@@ -18,7 +18,7 @@ module.exports = {
         });
     },
 
-    test:(req,res) =>{
+    test:(req,res,next) =>{
         Post.find((error, data) => {
             if (error) {
               return next(error)
@@ -31,11 +31,11 @@ module.exports = {
     },
 
     testPost:(req,res) =>{
-        let newPost = req.body;
+    
         var name = {name:"jhon"};
         let post = new Post(name);
+        console.log(post)
         console.log("Clear?")
-        
         post.save((err)=>{
             if(err){
                 console.log("NO")

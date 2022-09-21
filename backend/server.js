@@ -1,50 +1,39 @@
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('../config/db');
-
+// app.js
+const express = require("express");
+const connectDB = require("../config/Db");
+var cors = require("cors");
 
 // routes
-const articles = require('./routes/articles');
-
-//articles two testing
-const articles2 = require('./controller/articleController');
-
+const post = require("./controller/articleController");
 
 const app = express();
 const port = process.env.PORT || 8080;
 
-// cors config - allow same origin
 const corsOptions = {
   origin: true,
   credentials: true,
 };
 
-// // init cors
-app.use(cors());
+// init cors
+app.use(cors(corsOptions));
 
 // init body parser
 app.use(express.json());
 
+// use Routes
+app.get("/test", post.test);
+app.post("/test", post.testPost);
 
-// use routes here
-app.use('/articles', articles);
-app.post("/submitArticle", articles2.createArticle);
-app.get("/testArticle", articles2.test);
-app.post("/testPost", articles2.testPost);
-
-
-
-// Connect to database
+// Connect Database
 connectDB();
-if (process.env.NODE_ENV === 'production') {
-  // serve front-end client from build folder
-  app.use(express.static(__dirname+'/../frontend/build'));
-  app.get('*', (req, res) =>{
-    res.sendFile(__dirname+'/../frontend/build/index.html')
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(__dirname + "/frontend/build"));
+  app.get("*", (req, res) => {
+    res.sendFile(__dirname + "frontend/build/index.html");
   });
-  
 } else {
-  app.get('*', (req, res) => res.send(`API running on port ${port}`));
+  app.get("*", (req, res) => res.send(`API running on port ${port}`));
 }
 
 app.listen(port, () => console.log(`Server running on port ${port}`));

@@ -3,7 +3,7 @@ const router = express.Router();
 
 // Load Article model
 const Article = require('../models/article');
-const Post = require('../models/post')
+
 // @route GET api/books/test
 // @description tests books route
 // @access Public
