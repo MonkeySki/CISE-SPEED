@@ -21,7 +21,6 @@ if (process.env.NODE_ENV === 'production') {
   console.log(`Not Production Run`);
 }
 
-
 app.listen(port, () => {
   // perform a database connection when server starts
   dbo.connectToServer(function (err) {
