@@ -2,6 +2,7 @@ const { MongoClient } = require("mongodb");
 require("dotenv").config({ path: "../config.env" });
 const Db = process.env.ATLAS_URI;
 console.log("In conn 1"); 
+console.log(process.env.ATLAS_URI); 
 const client = new MongoClient(Db, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
