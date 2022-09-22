@@ -8,7 +8,20 @@ app.use(express.json());
 app.use(require("./routes/article"));
 // get driver connection
 const dbo = require("./db/conn");
- 
+if (process.env.NODE_ENV === 'production') {
+  // serve front-end client from build folder
+  app.use(express.static(__dirname+'/../frontend/build'));
+  app.get('*', (req, res) =>{
+    res.sendFile(__dirname+'/../frontend/build/index.html')
+  });
+  console.log(`Production Run`);
+  
+} else {
+  app.get('*', (req, res) => res.send(`API running on port ${port}`));
+  console.log(`Not Production Run`);
+}
+
+
 app.listen(port, () => {
   // perform a database connection when server starts
   dbo.connectToServer(function (err) {
