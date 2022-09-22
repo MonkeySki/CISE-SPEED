@@ -44,7 +44,7 @@ export default function ArticleList() {
  
  // This method will delete a record
  async function deleteArticle(id) {
-   await fetch(`http://localhost:5000/${id}`, {
+   await fetch(`/${id}`, {
      method: "DELETE"
    });
  
