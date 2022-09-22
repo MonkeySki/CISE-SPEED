@@ -35,14 +35,19 @@ articleRoutes.route("/article/:id").get(function (req, res) {
      res.json(result);
    });
 });
- 
+
 // This section will help you create a new record.
 articleRoutes.route("/article/add").post(function (req, response) {
  let db_connect = dbo.getDb();
  let myobj = {
-   title: req.body.title,
-   authors: req.body.authors,
-   doi: req.body.doi,
+    title: req.body.title,
+    author: req.body.author,
+    journal: req.body.journal,
+    year: req.body.year,
+    volume: req.body.volume,
+    number: req.body.number,
+    pages: req.body.pages, 
+    doi: req.body.doi,
  };
  db_connect.collection("articles").insertOne(myobj, function (err, res) {
    if (err) throw err;
@@ -56,9 +61,14 @@ articleRoutes.route("/update/:id").post(function (req, response) {
  let myquery = { _id: ObjectId(req.params.id) };
  let newvalues = {
    $set: {
-     name: req.body.name,
-     position: req.body.position,
-     level: req.body.level,
+    title: req.body.title,
+    author: req.body.author,
+    journal: req.body.journal,
+    year: req.body.year,
+    volume: req.body.volume,
+    number: req.body.number,
+    pages: req.body.pages, 
+    doi: req.body.doi,
    },
  };
  db_connect
