@@ -1,30 +1,15 @@
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('../config/db');
-
-// routes
-const articles = require('./routes/articles');
-
+const express = require("express");
 const app = express();
-const port = process.env.PORT || 8080;
-
-// cors config - allow same origin
-const corsOptions = {
-  origin: true,
-  credentials: true,
-};
-
-// // init cors
-app.use(cors(corsOptions));
-
-// init body parser
+const cors = require("cors");
+require("dotenv").config({ path: "../config.env" });
+const port = process.env.PORT || 5000;
+app.use(cors());
 app.use(express.json());
+console.log(`Before connection`);
+app.use(require("./routes/api/article"));
 
-// use routes here
-app.use('/articles', articles);
-
-// Connect Database
-connectDB();
+// get driver connection
+const dbo = require("./db/conn");
 if (process.env.NODE_ENV === 'production') {
   // serve front-end client from build folder
   app.use(express.static(__dirname+'/../frontend/build'));
@@ -32,10 +17,21 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(__dirname+'/../frontend/build/index.html')
   });
   console.log(`Production Run`);
+  console.log(`Production Run`);
   
 } else {
   app.get('*', (req, res) => res.send(`API running on port ${port}`));
   console.log(`Not Production Run`);
+  console.log(`Not Production Run`);
 }
 
-app.listen(process.env.PORT || port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => {
+  // perform a database connection when server starts
+  dbo.connectToServer(function (err) {
+    if (err) console.error(err);
+ 
+  });
+  console.log(`Server is running on port: ${port}`);
+
+  
+});
