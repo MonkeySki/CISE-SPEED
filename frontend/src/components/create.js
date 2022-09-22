@@ -4,8 +4,13 @@ import { useNavigate } from "react-router";
 export default function Create() {
  const [form, setForm] = useState({
    title: "",
-   authors: "",
-   doi: "",
+   author: "",
+   journal: "",
+   year: "",
+   volume: "",
+   number: "",
+   pages: "",
+   doi: ""
  });
  const navigate = useNavigate();
  
@@ -21,28 +26,35 @@ export default function Create() {
    e.preventDefault();
  
    // When a post request is sent to the create url, we'll add a new record to the database.
-   const newPerson = { ...form };
+   const newArticle = { ...form };
  
    await fetch("http://localhost:5000/article/add", {
      method: "POST",
      headers: {
        "Content-Type": "application/json",
      },
-     body: JSON.stringify(newPerson),
+     body: JSON.stringify(newArticle),
    })
    .catch(error => {
      window.alert(error);
      return;
    });
  
-   setForm({ title: "", author: "", doi: "" });
+   setForm({ title: "",
+    author: "",
+    journal: "",
+    year: "",
+    volume: "",
+    number: "",
+    pages: "",
+    doi: "" });
    navigate("/");
  }
  
  // This following section will display the form that takes the input from the user.
  return (
    <div>
-     <h3>Create New Record</h3>
+     <h3>Submit an Article</h3>
      <form onSubmit={onSubmit}>
        <div className="form-group">
          <label htmlFor="title">Title</label>
@@ -55,57 +67,79 @@ export default function Create() {
          />
        </div>
        <div className="form-group">
-         <label htmlFor="authors">Authors</label>
+         <label htmlFor="author">Author</label>
          <input
            type="text"
            className="form-control"
-           id="authors"
-           value={form.authors}
-           onChange={(e) => updateForm({ authors: e.target.value })}
+           id="author"
+           value={form.author}
+           onChange={(e) => updateForm({ author: e.target.value })}
          />
        </div>
        <div className="form-group">
-         <div className="form-check form-check-inline">
-           <input
-             className="form-check-input"
-             type="radio"
-             name="positionOptions"
-             id="positionIntern"
-             value="Intern"
-             checked={form.doi === "Intern"}
-             onChange={(e) => updateForm({ doi: e.target.value })}
-           />
-           <label htmlFor="positionIntern" className="form-check-label">Intern</label>
-         </div>
-         <div className="form-check form-check-inline">
-           <input
-             className="form-check-input"
-             type="radio"
-             name="positionOptions"
-             id="positionJunior"
-             value="Junior"
-             checked={form.doi === "Junior"}
-             onChange={(e) => updateForm({ doi: e.target.value })}
-           />
-           <label htmlFor="positionJunior" className="form-check-label">Junior</label>
-         </div>
-         <div className="form-check form-check-inline">
-           <input
-             className="form-check-input"
-             type="radio"
-             name="positionOptions"
-             id="positionSenior"
-             value="Senior"
-             checked={form.doi === "Senior"}
-             onChange={(e) => updateForm({ doi: e.target.value })}
-           />
-           <label htmlFor="positionSenior" className="form-check-label">Senior</label>
-         </div>
+         <label htmlFor="journal">Journal Name</label>
+         <input
+           type="text"
+           className="form-control"
+           id="journal"
+           value={form.journal}
+           onChange={(e) => updateForm({ journal: e.target.value })}
+         />
+       </div>
+       <div className="form-group">
+         <label htmlFor="year">Year</label>
+         <input
+           type="text"
+           className="form-control"
+           id="year"
+           value={form.year}
+           onChange={(e) => updateForm({ year: e.target.value })}
+         />
+       </div>
+       <div className="form-group">
+         <label htmlFor="volume">Volume Number</label>
+         <input
+           type="text"
+           className="form-control"
+           id="volume"
+           value={form.volume}
+           onChange={(e) => updateForm({ volume: e.target.value })}
+         />
+       </div>
+       <div className="form-group">
+         <label htmlFor="number">Number</label>
+         <input
+           type="text"
+           className="form-control"
+           id="number"
+           value={form.number}
+           onChange={(e) => updateForm({ number: e.target.value })}
+         />
+       </div>
+       <div className="form-group">
+         <label htmlFor="pages">Pages</label>
+         <input
+           type="text"
+           className="form-control"
+           id="pages"
+           value={form.pages}
+           onChange={(e) => updateForm({ pages: e.target.value })}
+         />
+       </div>
+       <div className="form-group">
+         <label htmlFor="doi">DOI</label>
+         <input
+           type="text"
+           className="form-control"
+           id="doi"
+           value={form.doi}
+           onChange={(e) => updateForm({ doi: e.target.value })}
+         />
        </div>
        <div className="form-group">
          <input
            type="submit"
-           value="Create person"
+           value="Submit Article"
            className="btn btn-primary"
          />
        </div>

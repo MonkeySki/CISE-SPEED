@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Article = (props) => (
  <tr>
    <td>{props.article.title}</td>
-   <td>{props.article.authors}</td>
+   <td>{props.article.author}</td>
    <td>{props.article.doi}</td>
    <td>
      <Link className="btn btn-link" to={`/edit/${props.article._id}`}>Edit</Link> |
@@ -73,7 +73,7 @@ export default function ArticleList() {
        <thead>
          <tr>
            <th>Title</th>
-           <th>Authors</th>
+           <th>Author</th>
            <th>DOI</th>
            <th>Action</th>
          </tr>
