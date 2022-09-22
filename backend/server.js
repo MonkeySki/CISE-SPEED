@@ -17,9 +17,11 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(__dirname+'/../frontend/build/index.html')
   });
   console.log(`Production Run`);
+  console.log(`Production Run`);
   
 } else {
   app.get('*', (req, res) => res.send(`API running on port ${port}`));
+  console.log(`Not Production Run`);
   console.log(`Not Production Run`);
 }
 
