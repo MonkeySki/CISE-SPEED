@@ -16,4 +16,9 @@ app.listen(port, () => {
  
   });
   console.log(`Server is running on port: ${port}`);
+
+  app.use(express.static(__dirname+'/../frontend/build'));
+  app.get('*', (req, res) =>{
+    res.sendFile(__dirname+'/../frontend/build/index.html')
+  });
 });
