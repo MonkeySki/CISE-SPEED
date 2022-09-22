@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-require("dotenv").config({ path: "../config.env" });
+require("dotenv").config({ path: "../.env" });
 const Db = process.env.ATLAS_URI;
 console.log("In conn 1"); 
 console.log(process.env.ATLAS_URI); 
