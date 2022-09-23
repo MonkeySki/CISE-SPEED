@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import axios from "axios"
  
 export default function Create() {
  const [form, setForm] = useState({
@@ -28,12 +29,11 @@ export default function Create() {
    // When a post request is sent to the create url, we'll add a new record to the database.
    const newArticle = { ...form };
  
-   await fetch("/article/add", {
-     method: "POST",
-     headers: {
-       "Content-Type": "application/json",
-     },
-     body: JSON.stringify(newArticle),
+   await axios.post('http://localhost:5000/article/add',newArticle).then(res=>{
+    if(res.data.success===1)
+    {
+      console.log("evidence added");
+    }
    })
    .catch(error => {
      window.alert(error);
