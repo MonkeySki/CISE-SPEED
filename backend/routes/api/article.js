@@ -4,6 +4,8 @@ const express = require("express");
 // We use it to define our routes.
 // The router will be added as a middleware and will take control of requests starting with path /record.
 const articleRoutes = express.Router();
+
+const article = require("../../model/article")
  
 // This will help us connect to the database
 const dbo = require("../../db/conn");
@@ -49,8 +51,11 @@ articleRoutes.route("/article/add").post(function (req, response) {
     pages: req.body.pages, 
     doi: req.body.doi,
  };
- db_connect.collection("articles").insertOne(myobj, function (err, res) {
-   if (err) throw err;
+
+ const evideince = new article(myobj);
+ db_connect.collection("articles").insertOne(evideince, function (err, res) {
+  console.log("HERE") 
+  if (err) throw err;
    response.json(res);
  });
 });
