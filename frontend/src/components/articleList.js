@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
  import axios from "axios"
+
+
 const Article = (props) => (
  <tr>
    <td>{props.article.title}</td>
@@ -19,17 +21,19 @@ const Article = (props) => (
  </tr>
 );
  
+
 export default function ArticleList() {
  const [articles, setArticles] = useState([]);
  
  // This method fetches the records from the database.
  useEffect(() => {
    async function getArticles() {
-    await axios.get('http://localhost:5000/article').then(res=>{
+   
+    await axios.get('/article').then(res=>{
       console.log(res)
-      if(!res.statusText=="OK"){
+      if(!res.statusText==="OK"){
         console.log("checking for articles")
-        const message = `An error occurred: http://localhost:5000/article `;
+        const message = `An error occurred: /article `;
         window.alert(message);
         return;
       }
