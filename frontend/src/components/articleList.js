@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
- import axios from "axios"
-
+import axios from "axios"
 
 const Article = (props) => (
  <tr>
    <td>{props.article.title}</td>
    <td>{props.article.author}</td>
+   <td>{props.article.year}</td>
+   <td>{props.article.volume}</td>
+   <td>{props.article.number}</td>
+   <td>{props.article.pages}</td>
    <td>{props.article.doi}</td>
    <td>
      <Link className="btn btn-link" to={`/edit/${props.article._id}`}>Edit</Link> |
@@ -21,7 +24,6 @@ const Article = (props) => (
  </tr>
 );
  
-
 export default function ArticleList() {
  const [articles, setArticles] = useState([]);
  
@@ -81,6 +83,11 @@ export default function ArticleList() {
          <tr>
            <th>Title</th>
            <th>Author</th>
+           <th>Journal</th>
+           <th>Year</th>
+           <th>volume</th>
+           <th>Number</th>
+           <th>Pages</th>
            <th>DOI</th>
            <th>Action</th>
          </tr>
