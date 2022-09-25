@@ -86,7 +86,7 @@ export default function ArticleList() {
            <th>Author</th>
            <th>Journal Name</th>
            <th>Year</th>
-           <th>volume</th>
+           <th>Volume</th>
            <th>Number</th>
            <th>Pages</th>
            <th>DOI</th>
