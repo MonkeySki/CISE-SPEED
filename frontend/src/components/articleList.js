@@ -6,6 +6,7 @@ const Article = (props) => (
  <tr>
    <td>{props.article.title}</td>
    <td>{props.article.author}</td>
+   <td>{props.article.journal}</td>
    <td>{props.article.year}</td>
    <td>{props.article.volume}</td>
    <td>{props.article.number}</td>
@@ -83,7 +84,7 @@ export default function ArticleList() {
          <tr>
            <th>Title</th>
            <th>Author</th>
-           <th>Journal</th>
+           <th>Journal Name</th>
            <th>Year</th>
            <th>volume</th>
            <th>Number</th>
