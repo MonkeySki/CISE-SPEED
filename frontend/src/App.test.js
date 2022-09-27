@@ -97,4 +97,5 @@ it("create alternative", () => {
   console.log("input:",input.value)
   fireEvent.change(input, {target: {value: '23'}})
   console.log("input:",input.value)
+  
 });
