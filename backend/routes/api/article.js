@@ -74,6 +74,7 @@ articleRoutes.route("/update/:id").post(function (req, response) {
     number: req.body.number,
     pages: req.body.pages, 
     doi: req.body.doi,
+    claim: req.body.claim
    },
  };
  db_connect
