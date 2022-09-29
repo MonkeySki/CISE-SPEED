@@ -28,10 +28,16 @@ const ArticleSchema = new mongoose.Schema({
     pages:{
         type:Number,
         required: false,
-    }, doi:{
+    }, 
+    doi:{
         type:String,
         required: false,
     },
+    claim:{
+        type:String,
+        required: false,
+    },
+    
 })
 
 module.exports=mongoose.model('article',ArticleSchema);

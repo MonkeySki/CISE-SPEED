@@ -11,7 +11,8 @@ export default function Create() {
    volume: "",
    number: "",
    pages: "",
-   doi: ""
+   doi: "",
+   claim: ""
  });
  const navigate = useNavigate();
  
@@ -47,7 +48,8 @@ export default function Create() {
     volume: "",
     number: "",
     pages: "",
-    doi: "" });
+    doi: "", 
+    claim: ""});
    navigate("/");
  }
  
@@ -134,6 +136,16 @@ export default function Create() {
            id="doi"
            value={form.doi}
            onChange={(e) => updateForm({ doi: e.target.value })}
+         />
+       </div>
+       <div className="form-group">
+         <label htmlFor="claim">Claim Type</label>
+         <input
+           type="text"
+           className="form-control"
+           id="claim"
+           value={form.claim}
+           onChange={(e) => updateForm({ claim: e.target.value })}
          />
        </div>
        <div className="form-group">
