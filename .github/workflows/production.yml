@@ -15,11 +15,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 17.x
-      - run: npm install
-      - run: npm run build --if-present
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API }}
-          heroku_app_name: 'cise-speed-apps'
-          heroku_email: 'ngt8261@autuni.ac.nz'
+          heroku_app_name: "cise-speed-apps"
+          heroku_email: "ngt8261@autuni.ac.nz"
