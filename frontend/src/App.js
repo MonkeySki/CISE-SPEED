@@ -1,5 +1,4 @@
 import React from "react";
- 
 // We use Route in order to define the different routes of our application
 import { Route, Routes } from "react-router-dom";
  
@@ -9,7 +8,8 @@ import RecordList from "./components/articleList";
 import Edit from "./components/edit";
 import Create from "./components/create";
  
-const App = () => {
+const App = () => 
+{
  return (
    <div>
      <Navbar />
