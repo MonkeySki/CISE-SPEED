@@ -50,7 +50,7 @@ articleRoutes.route("/article/add").post(function (req, response) {
     number: req.body.number,
     pages: req.body.pages, 
     doi: req.body.doi,
-    claim: req.body.doi
+    claim: req.body.claim
  };
 
  const evideince = new article(myobj);
