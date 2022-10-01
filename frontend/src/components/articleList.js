@@ -6,7 +6,7 @@ import { DataGrid } from "@mui/x-data-grid";
 
 export default function ArticleList() {
   const [articles, setArticles] = useState([]);
-  const rows =articles.map(({_id,title,author,year,volume,number,pages,doi})=>({id:_id,title,author,year,volume,number,pages,doi}))
+  const rows =articles.map(({_id,title,author,year,volume,number,pages,doi,claim})=>({id:_id,title,author,year,volume,number,pages,doi,claim}))
   console.log("Rows:",rows)
 
   const columns = [
@@ -17,6 +17,7 @@ export default function ArticleList() {
     { field: "number", headerName: "Number", width: 100 },
     { field: "pages", headerName: "Pages", width: 100 },
     { field: "doi", headerName: "Doi", width: 100 },
+    { field: "claim", headerName: "Claim Type", width: 100 },
   ];
   // This method fetches the records from the database.
   useEffect(() => {
