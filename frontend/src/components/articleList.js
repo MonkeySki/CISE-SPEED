@@ -48,7 +48,7 @@ export default function ArticleList() {
   // This following section will display the table with the records of individuals.
   return (
     <div>
-      <h3>Article List</h3>
+      <h3 className="Article-list">Article List</h3>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={rows}

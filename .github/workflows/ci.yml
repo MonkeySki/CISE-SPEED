@@ -2,9 +2,9 @@ name: CI_action
 
 on:
   push:
-    branches: [main]
+    branches: [main, wip_create_tests]
   pull_request:
-    branches: [main]
+    branches: [main, dev]
 
 jobs:
   build:
@@ -23,11 +23,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
-        run: npm install
+      - name: Prepare Backend
+        run: npm run prepare-backend
 
-      - name: Run the tests
-        run: npm test
+      - name: Prepare Frontend
+        run: npm run prepare-react
 
-      - name: Build Server
-        run: npm run build
+      - name: Run Tests
+        run: npm run test-react
