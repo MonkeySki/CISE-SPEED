@@ -14,11 +14,6 @@ import ArticleList from "./components/articleList";
 //   ReactDOM.unmountComponentAtNode(div);
 // });
 
-describe("Addition", () => {
-  it("knows that 2 and 2 make 4", () => {
-    expect(2 + 2).toBe(4);
-  });
-});
 
 describe("Testing Create.js", () => {
   it("form labels exsist", () => {
@@ -49,6 +44,48 @@ describe("Testing Create.js", () => {
     expect(screen.getByLabelText(/Volume Number/)).toBeTruthy();
     expect(screen.getByLabelText(/Pages/)).toBeTruthy();
     expect(screen.getByLabelText(/DOI/)).toBeTruthy();
+  });
+
+  it("Create text fields work", () => {
+    const utils = render(
+      <Router>
+        <Create />
+      </Router>
+    );
+  
+    const title = utils.getByLabelText('Title')
+    fireEvent.change(title, {target: {value: 'Rose'}})
+    expect(title.value).toBe('Rose')
+
+    const author = utils.getByLabelText('Author')
+    fireEvent.change(author, {target: {value: 'Rose'}})
+    expect(author.value).toBe('Rose')
+
+    const journal = utils.getByLabelText('Journal Name')
+    fireEvent.change(journal, {target: {value: 'Rose'}})
+    expect(journal.value).toBe('Rose')
+
+    const year = utils.getByLabelText('Year')
+    fireEvent.change(year, {target: {value: '1999'}})
+    expect(year.value).toBe('1999')
+
+    const volume = utils.getByLabelText('Volume Number')
+    fireEvent.change(volume, {target: {value: '22'}})
+    expect(volume.value).toBe('22')
+
+    const number = utils.getByLabelText('Number')
+    fireEvent.change(number, {target: {value: '2'}})
+    expect(number.value).toBe('2')
+
+    const pages = utils.getByLabelText('Pages')
+    fireEvent.change(pages, {target: {value: '31'}})
+    expect(pages.value).toBe('31')
+
+    const doi = utils.getByLabelText('DOI')
+    fireEvent.change(doi, {target: {value: 'Rose'}})
+    expect(doi.value).toBe('Rose')
+  
+    
   });
 });
 
@@ -86,16 +123,4 @@ it("can render and update form", () => {
   });
 });
 
-it("create alternative", () => {
-  const utils = render(
-    <Router>
-      <Create />
-    </Router>
-  );
 
-  const input = utils.getByLabelText('Title')
-  console.log("input:",input.value)
-  fireEvent.change(input, {target: {value: '23'}})
-  console.log("input:",input.value)
-  
-});
