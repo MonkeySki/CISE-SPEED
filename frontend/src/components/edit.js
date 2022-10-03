@@ -69,7 +69,7 @@ export default function Edit() {
   // This method fetches the articles from the database.
   useEffect(() => {
     async function getArticles() {
-      await axios.get("/article").then((res) => {
+      await axios.get("http://localhost:5000/article").then((res) => {
         if (!res.statusText === "OK") {
           const message = `An error occurred: /article `;
           window.alert(message);
@@ -90,7 +90,7 @@ export default function Edit() {
 
   //We shouldn't do it like this, but this reloads the page when we need to refresh the database with unique id's
   function refreshPage() {
-    window.location.reload(false);
+    window.location.reload(true);
   }
 
   // These are so we can edit the grid
@@ -128,7 +128,7 @@ export default function Edit() {
     try {
       const response = await axios({
         method: "post",
-        url: "/update/" + newRow.id,
+        url: "http://localhost:5000/update/" + newRow.id,
         data: {
           title: newRow.title,
           author: newRow.author,
