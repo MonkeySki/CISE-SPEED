@@ -84,10 +84,9 @@ export default function AskConfirmationBeforeSave() {
   }, []);
   // const mutateRow = useFakeMutation();
   const noButtonRef = React.useRef(null);
-  const [promiseArguments, setPromiseArguments] = React.useState(null);
-
+  const [promiseArguments, setPromiseArguments] = React.useState(null);  
   const [snackbar, setSnackbar] = React.useState(null);
-
+  
   const handleCloseSnackbar = () => setSnackbar(null);
 
   const processRowUpdate = React.useCallback(
