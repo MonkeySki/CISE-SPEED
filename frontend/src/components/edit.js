@@ -88,11 +88,6 @@ export default function Edit() {
     console.log("clicked:", param);
   };
 
-  //We shouldn't do it like this, but this reloads the page when we need to refresh the database with unique id's
-  function refreshPage() {
-    window.location.reload(true);
-  }
-
   // These are so we can edit the grid
   const noButtonRef = React.useRef(null);
   const [promiseArguments, setPromiseArguments] = React.useState(null);
@@ -114,7 +109,10 @@ export default function Edit() {
   );
 
   const handleProcessRowUpdateError = React.useCallback(() => {
-    refreshPage();
+    if (process.env.NODE_ENV === 'production') {
+        window.location.replace("/edit");
+    }
+    else{window.location.reload();}
   }, []);
 
   const handleNo = () => {
