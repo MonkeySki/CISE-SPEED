@@ -69,7 +69,7 @@ export default function Edit() {
   // This method fetches the articles from the database.
   useEffect(() => {
     async function getArticles() {
-      await axios.get("http://localhost:5000/article").then((res) => {
+      await axios.get("/article").then((res) => {
         if (!res.statusText === "OK") {
           const message = `An error occurred: /article `;
           window.alert(message);
