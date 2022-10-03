@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-lateste
 
     steps:
       - name: Development Code
@@ -16,5 +16,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 17.x
-      - run: npm install
-      - run: npm run build --if-present
+      - name: Prepare Backend
+        run: npm run prepare-backend
+
+      - name: Prepare Frontend
+        run: npm run prepare-react
+
+      - name: Run Tests
+        run: npm run test-react
