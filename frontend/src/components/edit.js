@@ -110,7 +110,7 @@ export default function Edit() {
 
   const handleProcessRowUpdateError = React.useCallback(() => {
     if (process.env.NODE_ENV === 'production') {
-        window.location.replace("/edit");
+        window.location.replace("#/edit");
     }
     else{window.location.reload();}
   }, []);
