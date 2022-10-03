@@ -81,7 +81,7 @@ export default function Edit() {
     }
     getArticles();
     return;
-  }, [articles.length]);
+  }, []);
 
   //ON CLICK HANDLE STUFF
   const handleOnCellClick = (param) => {
@@ -109,7 +109,7 @@ export default function Edit() {
   );
 
   const handleProcessRowUpdateError = React.useCallback(() => {
-    
+
   }, []);
 
   const handleNo = () => {
@@ -121,7 +121,7 @@ export default function Edit() {
   const handleYes = async () => {
     const { newRow, oldRow, reject, resolve } = promiseArguments;
     try {
-        const response = await axios({
+      const response = await axios({
         method: "post",
         url: "http://localhost:5000/update/" + newRow.id,
         data: {
