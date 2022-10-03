@@ -50,6 +50,7 @@ articleRoutes.route("/article/add").post(function (req, response) {
     number: req.body.number,
     pages: req.body.pages, 
     doi: req.body.doi,
+    claim: req.body.claim
  };
 
  const evideince = new article(myobj);
@@ -77,12 +78,11 @@ articleRoutes.route("/update/:id").post(function (req, response) {
     claim: req.body.claim
    },
  };
- db_connect
-   .collection("articles")
-   .updateOne(myquery, newvalues, function (err, res) {
+ db_connect.collection("articles").updateOne(myquery, newvalues, function (err, res) {
      if (err) throw err;
-     console.log("1 document updated");
-     response.json(res);
+     else
+      console.log(res);
+      response.json(res);
    });
 });
  
