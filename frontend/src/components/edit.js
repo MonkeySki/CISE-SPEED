@@ -69,7 +69,7 @@ export default function Edit() {
   // This method fetches the articles from the database.
   useEffect(() => {
     async function getArticles() {
-      await axios.get("/article").then((res) => {
+      await axios.get("http://localhost:5000/article").then((res) => {
         if (!res.statusText === "OK") {
           const message = `An error occurred: /article `;
           window.alert(message);
@@ -91,7 +91,9 @@ export default function Edit() {
   // These are so we can edit the grid
   const noButtonRef = React.useRef(null);
   const [promiseArguments, setPromiseArguments] = React.useState(null);
+  
   const [snackbar, setSnackbar] = React.useState(null);
+  
   const handleCloseSnackbar = () => setSnackbar(null);
 
   const processRowUpdate = React.useCallback(
@@ -109,7 +111,6 @@ export default function Edit() {
   );
 
   const handleProcessRowUpdateError = React.useCallback(() => {
-
   }, []);
 
   const handleNo = () => {
@@ -136,14 +137,17 @@ export default function Edit() {
           claim: newRow.claim,
         },
       });
+
       setSnackbar({
         children: "Article Added Successfully",
         severity: "success",
       });
+
       //It seems to be this resolve bit, resolve seems to kind of close the editing box. If response goes to it,
       // it's a unique id problem, and if I send newRow, it shows blank or previous stuff and if I leave resolve empty, then
       // the edit box stays on screen.
-      resolve(response);
+      console.log(response);
+      resolve(newRow);
       setPromiseArguments(null);
     } catch (error) {
       setSnackbar({ children: newRow.id, severity: "error" });
@@ -197,7 +201,6 @@ export default function Edit() {
           rows={rows}
           columns={columns}
           processRowUpdate={processRowUpdate}
-          onProcessRowUpdateError={handleProcessRowUpdateError}
           experimentalFeatures={{ newEditingApi: true }}
           pageSize={5}
           rowsPerPageOptions={[5]}
