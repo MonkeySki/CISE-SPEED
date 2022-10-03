@@ -69,7 +69,7 @@ export default function Edit() {
   // This method fetches the articles from the database.
   useEffect(() => {
     async function getArticles() {
-      await axios.get("/article").then((res) => {
+      await axios.get("http://localhost:5000/article").then((res) => {
         if (!res.statusText === "OK") {
           const message = `An error occurred: /article `;
           window.alert(message);
@@ -109,10 +109,7 @@ export default function Edit() {
   );
 
   const handleProcessRowUpdateError = React.useCallback(() => {
-    if (process.env.NODE_ENV === 'production') {
-        window.location.replace("https://cise-speed-apps.herokuapp.com/edit");
-    }
-    else{window.location.reload();}
+    
   }, []);
 
   const handleNo = () => {
@@ -124,9 +121,9 @@ export default function Edit() {
   const handleYes = async () => {
     const { newRow, oldRow, reject, resolve } = promiseArguments;
     try {
-      const response = await axios({
+        const response = await axios({
         method: "post",
-        url: "/update/" + newRow.id,
+        url: "http://localhost:5000/update/" + newRow.id,
         data: {
           title: newRow.title,
           author: newRow.author,
@@ -140,9 +137,12 @@ export default function Edit() {
         },
       });
       setSnackbar({
-        children: "Article successfully saved",
+        children: "Article Added Successfully",
         severity: "success",
       });
+      //It seems to be this resolve bit, resolve seems to kind of close the editing box. If response goes to it,
+      // it's a unique id problem, and if I send newRow, it shows blank or previous stuff and if I leave resolve empty, then
+      // the edit box stays on screen.
       resolve(response);
       setPromiseArguments(null);
     } catch (error) {
@@ -187,7 +187,10 @@ export default function Edit() {
   return (
     <div>
       <h3 className="Article-list">Edit Articles</h3>
-      <p>To edit articles, double click into a cell, edit the cell, press enter, then yes on the pop up.</p>
+      <p>
+        To edit articles, double click into a cell, edit the cell, press enter,
+        then yes on the pop up.
+      </p>
       <div style={{ height: 400, width: "100%" }}>
         {renderConfirmDialog()}
         <DataGrid
