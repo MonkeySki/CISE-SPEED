@@ -69,7 +69,7 @@ export default function Edit() {
   // This method fetches the articles from the database.
   useEffect(() => {
     async function getArticles() {
-      await axios.get("http://localhost:5000/article").then((res) => {
+      await axios.get("/article").then((res) => {
         if (!res.statusText === "OK") {
           const message = `An error occurred: /article `;
           window.alert(message);
@@ -110,7 +110,7 @@ export default function Edit() {
 
   const handleProcessRowUpdateError = React.useCallback(() => {
     if (process.env.NODE_ENV === 'production') {
-        window.location.replace("#/edit");
+        window.location.replace("/edit");
     }
     else{window.location.reload();}
   }, []);
@@ -126,7 +126,7 @@ export default function Edit() {
     try {
       const response = await axios({
         method: "post",
-        url: "http://localhost:5000/update/" + newRow.id,
+        url: "/update/" + newRow.id,
         data: {
           title: newRow.title,
           author: newRow.author,
