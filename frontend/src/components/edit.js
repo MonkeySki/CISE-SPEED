@@ -169,20 +169,28 @@ export default function Edit() {
   };
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      {renderConfirmDialog()}
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        processRowUpdate={processRowUpdate}
-        experimentalFeatures={{ newEditingApi: true }}
-        rowsPerPageOptions={[10]}
-      />
-      {!!snackbar && (
-        <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
-          <Alert {...snackbar} onClose={handleCloseSnackbar} />
-        </Snackbar>
-      )}
+    <div>
+      <h3 className="Article-list">Edit Articles</h3>
+      <p>
+        To edit articles, double click into a cell, edit the cell, press enter,
+        then yes on the pop up.
+      </p>
+      <div style={{ height: 400, width: "100%" }}>
+        {renderConfirmDialog()}
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          processRowUpdate={processRowUpdate}
+          experimentalFeatures={{ newEditingApi: true }}
+          pageSize={10}
+          rowsPerPageOptions={[10]}
+        />
+        {!!snackbar && (
+          <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
+            <Alert {...snackbar} onClose={handleCloseSnackbar} />
+          </Snackbar>
+        )}
+      </div>
     </div>
   );
 }
