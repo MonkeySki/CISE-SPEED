@@ -39,7 +39,6 @@ function computeMutation(newRow, oldRow) {
   return null;
 }
 
-// The Administrator's Page
 export default function Edit() {
   const [articles, setArticles] = useState([]);
   const rows = articles.map(
@@ -81,22 +80,12 @@ export default function Edit() {
     }
     getArticles();
     return;
-  }, [articles.length]);
-
-  //ON CLICK HANDLE STUFF
-  const handleOnCellClick = (param) => {
-    console.log("clicked:", param);
-  };
-
-  //We shouldn't do it like this, but this reloads the page when we need to refresh the database with unique id's
-  function refreshPage() {
-    window.location.reload(false);
-  }
-
-  // These are so we can edit the grid
+  }, []);
+  // const mutateRow = useFakeMutation();
   const noButtonRef = React.useRef(null);
   const [promiseArguments, setPromiseArguments] = React.useState(null);
   const [snackbar, setSnackbar] = React.useState(null);
+
   const handleCloseSnackbar = () => setSnackbar(null);
 
   const processRowUpdate = React.useCallback(
@@ -113,10 +102,6 @@ export default function Edit() {
     []
   );
 
-  const handleProcessRowUpdateError = React.useCallback(() => {
-    refreshPage();
-  }, []);
-
   const handleNo = () => {
     const { oldRow, resolve } = promiseArguments;
     resolve(oldRow); // Resolve with the old row to not update the internal state
@@ -124,12 +109,14 @@ export default function Edit() {
   };
 
   const handleYes = async () => {
-    const { newRow, oldRow, reject, resolve } = promiseArguments;
+    const { newRow, oldRow, reject } = promiseArguments;
+
     try {
-      const response = await axios({
+      await axios({
         method: "post",
         url: "/update/" + newRow.id,
         data: {
+          id: newRow.id,
           title: newRow.title,
           author: newRow.author,
           journal: newRow.journal,
@@ -141,22 +128,17 @@ export default function Edit() {
           claim: newRow.claim,
         },
       });
-      setSnackbar({
-        children: "Article successfully saved",
-        severity: "success",
-      });
-      resolve(response);
+      // Make the HTTP request to save in the backend
+      setSnackbar({ children: "User successfully saved", severity: "success" });
       setPromiseArguments(null);
     } catch (error) {
-      setSnackbar({ children: newRow.id, severity: "error" });
+      setSnackbar({ children: "Name can't be empty", severity: "error" });
       reject(oldRow);
       setPromiseArguments(null);
     }
   };
 
-  const handleEntered = () => {
-    //Nothing happens
-  };
+  const handleEntered = () => {};
 
   const renderConfirmDialog = () => {
     if (!promiseArguments) {
@@ -185,22 +167,23 @@ export default function Edit() {
       </Dialog>
     );
   };
-  // This following section will display the table with our articles
+
   return (
     <div>
       <h3 className="Article-list">Edit Articles</h3>
-      <p>To edit articles, double click into a cell, edit the cell, press enter, then yes on the pop up.</p>
+      <p>
+        To edit articles, double click into a cell, edit the cell, press enter,
+        then yes on the pop up.
+      </p>
       <div style={{ height: 400, width: "100%" }}>
         {renderConfirmDialog()}
         <DataGrid
           rows={rows}
           columns={columns}
           processRowUpdate={processRowUpdate}
-          onProcessRowUpdateError={handleProcessRowUpdateError}
           experimentalFeatures={{ newEditingApi: true }}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          onCellClick={handleOnCellClick}
+          pageSize={10}
+          rowsPerPageOptions={[10]}
         />
         {!!snackbar && (
           <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
