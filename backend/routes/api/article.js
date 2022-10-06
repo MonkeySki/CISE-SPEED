@@ -97,5 +97,52 @@ articleRoutes.route("/:id").delete((req, response) => {
    response.json(obj);
  });
 });
+
+articleRoutes.route("/moderator").get(function (req, res) {
+  let db_connect = dbo.getDb("cise");
+  db_connect
+    .collection("moderator")
+    .find({})
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+ });
+  
+ // This section will help you get a single record by id
+ articleRoutes.route("/moderator/:id").get(function (req, res) {
+  let db_connect = dbo.getDb();
+  let myquery = { _id: ObjectId(req.params.id) };
+  db_connect
+    .collection("moderator")
+    .findOne(myquery, function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+ });
+ 
+ // This section will help you create a new record.
+ articleRoutes.route("/moderator/add").post(function (req, response) {
+  let db_connect = dbo.getDb();
+  let myobj = {
+     title: req.body.title,
+     author: req.body.author,
+     journal: req.body.journal,
+     year: req.body.year,
+     volume: req.body.volume,
+     number: req.body.number,
+     pages: req.body.pages, 
+     doi: req.body.doi,
+     claim: req.body.claim,
+
+  };
+ 
+  const evidence = new article(myobj);
+  db_connect.collection("moderator").insertOne(evidence, function (err, res) {
+   console.log("HERE") 
+   if (err) throw err;
+    response.json(res);
+  });
+ });
  
 module.exports = articleRoutes;
