@@ -26,8 +26,30 @@ articleRoutes.route("/article").get(function (req, res) {
     });
 });
 
+articleRoutes.route("/analyst").get(function (req, res){
+  let db_connect = dbo.getDb("cise");
+  db_connect
+  .collection("analyst")
+  .find({})
+  .toArray(function (err, result){
+    if(err) throw err;
+    res.json(result);
+  })
+})
+
 // This section will help you get a single record by id
 articleRoutes.route("/article/:id").get(function (req, res) {
+  let db_connect = dbo.getDb();
+  let myquery = { _id: ObjectId(req.params.id) };
+  db_connect
+    .collection("articles")
+    .findOne(myquery, function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+});
+
+articleRoutes.route("/analyst/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   db_connect

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import SyncIcon from '@mui/icons-material/Sync';
-import { Button } from "bootstrap";
+import { Button } from "@mui/material";
 
 export default function ArticleList() {
   const [articles, setArticles] = useState([]);
@@ -48,46 +48,9 @@ export default function ArticleList() {
     },
   ];
 
-  //creating the accept button
-  const renderAcceptButton = (param) => {
-    return(
-      <strong>
-        <Button 
-        id="acceptButton1"
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          console.log('accept button clicked') //checking to see if onClick is working
-        }}
-        >
-          Accept
-        </Button>
-      </strong>
-    )
-
-  }
-
-  //creating the deny button
-  const renderDenyButton = (param) => {
-    return(
-      <strong>
-        <Button 
-        id="denyButton1"
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          console.log('deny button clicked')//checking to see if onClick is working
-        }}
-        >
-          Deny
-        </Button>
-      </strong>
-    )
-
-  }
 
   //feilds accept and deny should render their respective buttons
-  const columns = [
+  const columns= [
     { field: "title", headerName: "Title", width: 100 },
     { field: "author", headerName: "Author", width: 100 },
     { field: "year", headerName: "Year", width: 100, filterOperators: quantityOnlyOperators },
@@ -96,15 +59,45 @@ export default function ArticleList() {
     { field: "pages", headerName: "Pages", width: 100 },
     { field: "doi", headerName: "Doi", width: 100 },
     { field: "claim", headerName: "Claim Type", width: 100 },
-    { field: "accept", headerName: "Accept", width: 100, filterable: false, hideable: false, sortable: false,
-    headerAlign: 'center', disableClickEventBubbling: true, renderCell: renderAcceptButton},
-    { field: "deny", headerName: "Deny", width: 100, filterable: false, hideable: false, sortable: false,
-    headerAlign: 'center', disableClickEventBubbling: true, renderCell: renderDenyButton},
+    { field: "Accept", headerName: "Accept", width: 100, filterable: false, hideable: false, sortable: false,
+      headerAlign: 'center',
+      renderCell: (cellValues) => {
+        return (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={(event) => {
+              console.log('accept button clicked');
+            }}
+            >
+              Accept
+            </Button>
+        );
+      } ,
+      disableClickEventBubbling: true},
+    { field: "Deny", headerName: "Reject", width: 100, filterable: false, hideable: false, sortable: false,
+      headerAlign: 'center', 
+      renderCell: (cellValues) => {
+        return (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={(event) => {
+              console.log('accept button clicked');
+            }}
+            >
+              Reject
+            </Button>
+        );
+      } ,
+      disableClickEventBubbling: true},
   ];
+
+
   // This method fetches the records from the database.
   useEffect(() => {
     async function getArticles() {
-      await axios.get("/analyst").then((res) => {
+      await axios.get("http://localhost:5000/analyst").then((res) => {
         console.log(res);
         if (!res.statusText === "OK") {
           console.log("checking for articles");
@@ -227,6 +220,7 @@ InputNumberInterval.propTypes = {
       <h3 className="Analyst-list">Analyst List</h3>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
+          disableColumnFilter
           rows={rows}
           columns={columns}
           pageSize={5}
