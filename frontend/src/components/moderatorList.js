@@ -1,12 +1,12 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 
 
+
 export default function ModeratorList() {
   const [articles, setArticles] = useState([]);
-  const rows = articles.map(({ _id, title, author, year, volume, number, pages, doi, claim}) => ({ id: _id, title, author, year, volume, number, pages, doi, claim }))
+  const rows = articles.map(({ _id, title, author, year, volume, number, pages, doi, claim, approve, reject }) => ({ id: _id, title, author, year, volume, number, pages, doi, claim, approve, reject }))
   console.log("Rows:", rows)
 
   const columns = [
@@ -18,9 +18,58 @@ export default function ModeratorList() {
     { field: "pages", headerName: "Pages", width: 100 },
     { field: "doi", headerName: "Doi", width: 100 },
     { field: "claim", headerName: "Claim Type", width: 100 },
-    { field: "Approve", headerName: "Approve", width: 100 },
-    { field: "Reject", headerName: "Reject", width: 100 },
+    {
+      field: "approve",
+      headerName: "Approve",
+      width: 100,
+      
+      renderCell: (params) => {
+        const onClick = (e) => {
+          e.stopPropagation(); // stops from the row getting selected after clicking
+  
+          const api = params.api;
+          const thisRow = {};
+  
+          api
+            .getAllColumns()
+            .filter((c) => c.field !== "__check__" && !!c)
+            .forEach(
+              (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+            );
+  
+          return alert(JSON.stringify(thisRow, null, 4));
+        };
+        return <button onclick="acceptFunction(article)">Approve</button>;
+      }
+      
+    },
+    
+    { field: "Reject", 
+    headerName: "Reject", 
+    width: 100, 
+    
+    renderCell: (params) => {
+      const onClick = (e) => {
+        e.stopPropagation(); // stops from the row getting selected after clicking
+
+        const api = params.api;
+        const thisRow = {};
+
+        api
+          .getAllColumns()
+          .filter((c) => c.field !== "__check__" && !!c)
+          .forEach(
+            (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+          );
+
+        return alert(JSON.stringify(thisRow, null, 4));
+      };
+      return <button onclick="rejectFunction(article)">Reject</button>;
+      }
+    },
+
   ];
+
   // This method fetches the records from the database.
   useEffect(() => {
     async function getModeratorArticles() {
@@ -33,15 +82,22 @@ export default function ModeratorList() {
           return;
         }
         const articles = res.data;
-        console.log(articles);
+        console.log(`Articles: ${articles}`);
         setArticles(articles);
       });
     }
 
     function acceptFunction(article) {  //Get help: how to add checkboxes to grid, how to rermove or accept articles
-      console.log("trying to remove: " + article)
+      console.log("trying to accept: " + article)
+      
+
+    }    //HELP!   how do i get the buttons to corrospond to their row/ item in DB  and remove it
+         
+    
+    function rejectFunction(article) {  //Get help: how to add checkboxes to grid, how to rermove or accept articles
+      console.log("trying to remove: " + article )  //+"   ID: " + id
       //remove(article);   //imagine if that  just worked...
-      //probably want to refresh too?
+
     }
 
     getModeratorArticles();
@@ -57,7 +113,7 @@ export default function ModeratorList() {
   // This following section will display the table with the records of individuals.
   return (
     <div>
-      <h3 className="Moderator-list">Moderator List</h3>
+      <h3 className="Articles to be moderated">Articles to be moderated</h3>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={rows}
@@ -65,7 +121,6 @@ export default function ModeratorList() {
           pageSize={5}
           rowsPerPageOptions={[5]}
           onCellClick={handleOnCellClick}
-          on
         />
       </div>
     </div>
