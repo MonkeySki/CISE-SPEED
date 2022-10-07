@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import SyncIcon from '@mui/icons-material/Sync';
+import { Button } from "bootstrap";
 
 export default function ArticleList() {
   const [articles, setArticles] = useState([]);
@@ -47,6 +48,45 @@ export default function ArticleList() {
     },
   ];
 
+  //creating the accept button
+  const renderAcceptButton = (param) => {
+    return(
+      <strong>
+        <Button 
+        id="acceptButton1"
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          console.log('accept button clicked') //checking to see if onClick is working
+        }}
+        >
+          Accept
+        </Button>
+      </strong>
+    )
+
+  }
+
+  //creating the deny button
+  const renderDenyButton = (param) => {
+    return(
+      <strong>
+        <Button 
+        id="denyButton1"
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          console.log('deny button clicked')//checking to see if onClick is working
+        }}
+        >
+          Deny
+        </Button>
+      </strong>
+    )
+
+  }
+
+  //feilds accept and deny should render their respective buttons
   const columns = [
     { field: "title", headerName: "Title", width: 100 },
     { field: "author", headerName: "Author", width: 100 },
@@ -56,16 +96,19 @@ export default function ArticleList() {
     { field: "pages", headerName: "Pages", width: 100 },
     { field: "doi", headerName: "Doi", width: 100 },
     { field: "claim", headerName: "Claim Type", width: 100 },
-    { field: "outcome", headerName: "Outcome", width: 150},
+    { field: "accept", headerName: "Accept", width: 100, filterable: false, hideable: false, sortable: false,
+    headerAlign: 'center', disableClickEventBubbling: true, renderCell: renderAcceptButton},
+    { field: "deny", headerName: "Deny", width: 100, filterable: false, hideable: false, sortable: false,
+    headerAlign: 'center', disableClickEventBubbling: true, renderCell: renderDenyButton},
   ];
   // This method fetches the records from the database.
   useEffect(() => {
     async function getArticles() {
-      await axios.get("/article").then((res) => {
+      await axios.get("/analyst").then((res) => {
         console.log(res);
         if (!res.statusText === "OK") {
           console.log("checking for articles");
-          const message = `An error occurred: /article `;
+          const message = `An error occurred: /analyst `;
           window.alert(message);
           return;
         }
@@ -203,29 +246,3 @@ InputNumberInterval.propTypes = {
     </div>
   );
 }
-
-
-//Origin Code
-//-----------
-// export default function AnalystList() {
-
-//     //Copied columns from articleList.js
-//     const columns = [
-//         { field: "title", headerName: "Title", width: 100 },
-//         { field: "author", headerName: "Author", width: 100 },
-//         { field: "year", headerName: "Year", width: 100, filterOperators: quantityOnlyOperators },
-//         { field: "volume", headerName: "Volume", width: 100 },
-//         { field: "number", headerName: "Number", width: 100 },
-//         { field: "pages", headerName: "Pages", width: 100 },
-//         { field: "doi", headerName: "Doi", width: 100 },
-//         { field: "claim", headerName: "Claim Type", width: 100 },
-//       ];
-
-//     return (
-//         <>
-//             <div>
-//                 <p>Analyst Hold Page For Bharath</p>
-//             </div>
-//         </>
-//     )
-// }
