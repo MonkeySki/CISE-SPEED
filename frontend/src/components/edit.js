@@ -66,7 +66,7 @@ export default function Edit() {
     { field: "pages", headerName: "Pages", width: 100, editable: true },
     { field: "doi", headerName: "Doi", width: 100, editable: true },
     { field: "claim", headerName: "Claim Type", width: 100, editable: true },
-    { field: "claimStrength", headerName: "Claim Strength", width: 100, editable: true },
+    { field: "claimStrength", headerName: "Claim Strength", width: 150, editable: true },
 
   ];
 

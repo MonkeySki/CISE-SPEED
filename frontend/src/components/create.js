@@ -193,7 +193,7 @@ export default function Create() {
         </div>
         <div className="form-group">
           <label htmlFor="claimStrength">Claim Strength</label>
-          <select id="claim" name="claim" onChange={(e) => updateForm({ claim: e.target.value })}>
+          <select id="claimStrength" name="claimStrength" onChange={(e) => updateForm({ claimStrength: e.target.value })}>
             <option value="Strongly Agree">Strongly Agree</option>
             <option value="Agree">Agree</option>
             <option value="Disagree">Disagree</option>
