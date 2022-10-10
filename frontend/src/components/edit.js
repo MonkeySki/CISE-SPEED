@@ -35,6 +35,9 @@ function computeMutation(newRow, oldRow) {
   if (newRow.claim !== oldRow.claim) {
     return `Claim from '${oldRow.claim}' to '${newRow.claim}'`;
   }
+  if (newRow.claimStrength !== oldRow.claimStrength) {
+    return `Claim Strength from '${oldRow.claimStrength}' to '${newRow.claimStrength}'`;
+  }
 
   return null;
 }
@@ -42,7 +45,7 @@ function computeMutation(newRow, oldRow) {
 export default function Edit() {
   const [articles, setArticles] = useState([]);
   const rows = articles.map(
-    ({ _id, title, author, year, volume, number, pages, doi, claim }) => ({
+    ({ _id, title, author, year, volume, number, pages, doi, claim, claimStrength }) => ({
       id: _id,
       title,
       author,
@@ -51,7 +54,7 @@ export default function Edit() {
       number,
       pages,
       doi,
-      claim,
+      claim, claimStrength
     })
   );
   const columns = [
@@ -63,6 +66,8 @@ export default function Edit() {
     { field: "pages", headerName: "Pages", width: 100, editable: true },
     { field: "doi", headerName: "Doi", width: 100, editable: true },
     { field: "claim", headerName: "Claim Type", width: 100, editable: true },
+    { field: "claimStrength", headerName: "Claim Strength", width: 150, editable: true },
+
   ];
 
   // This method fetches the articles from the database.
@@ -126,6 +131,7 @@ export default function Edit() {
           pages: newRow.pages,
           doi: newRow.doi,
           claim: newRow.claim,
+          claimStrength: newRow.claimStrength
         },
       });
       // Make the HTTP request to save in the backend
@@ -138,7 +144,7 @@ export default function Edit() {
     }
   };
 
-  const handleEntered = () => {};
+  const handleEntered = () => { };
 
   const renderConfirmDialog = () => {
     if (!promiseArguments) {
