@@ -50,12 +50,12 @@ articleRoutes.route("/article/add").post(function (req, response) {
     number: req.body.number,
     pages: req.body.pages,
     doi: req.body.doi,
-    claim: req.body.claim
+    claim: req.body.claim,
+    claimStrength: req.body.claimStrength
   };
 
   const evideince = new article(myobj);
   db_connect.collection("articles").insertOne(evideince, function (err, res) {
-    console.log("HERE")
     if (err) throw err;
     response.json(res);
   });
@@ -75,7 +75,8 @@ articleRoutes.route("/update/:id").post(function (req, response) {
       number: req.body.number,
       pages: req.body.pages,
       doi: req.body.doi,
-      claim: req.body.claim
+      claim: req.body.claim,
+      claimStrength: req.body.claimStrength
     },
   };
   db_connect.collection("articles").updateOne(myquery, newvalues, function (err, res) {
