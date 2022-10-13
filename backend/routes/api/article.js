@@ -16,6 +16,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 // This section will help you get a list of all the records.
 articleRoutes.route("/article").get(function (req, res) {
+  console.log("HERE")
   let db_connect = dbo.getDb("cise");
   db_connect
     .collection("articles")
@@ -26,6 +27,8 @@ articleRoutes.route("/article").get(function (req, res) {
     });
 });
 
+
+//analyst collection
 articleRoutes.route("/analyst").get(function (req, res){
   let db_connect = dbo.getDb("cise");
   db_connect
@@ -36,6 +39,19 @@ articleRoutes.route("/analyst").get(function (req, res){
     res.json(result);
   })
 })
+
+//rejected collection
+articleRoutes.route("/rejected").get(function (req, res) {
+  let db_connect = dbo.getDb("cise");
+  db_connect
+    .collection("rejected")
+    .find({})
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+});
+
 
 // This section will help you get a single record by id
 articleRoutes.route("/article/:id").get(function (req, res) {
@@ -49,11 +65,26 @@ articleRoutes.route("/article/:id").get(function (req, res) {
     });
 });
 
+
+//analyst collection
 articleRoutes.route("/analyst/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   db_connect
-    .collection("articles")
+    .collection("analyst")
+    .findOne(myquery, function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+});
+
+
+//rejected collection
+articleRoutes.route("/rejected/:id").get(function (req, res) {
+  let db_connect = dbo.getDb();
+  let myquery = { _id: ObjectId(req.params.id) };
+  db_connect
+    .collection("rejected")
     .findOne(myquery, function (err, result) {
       if (err) throw err;
       res.json(result);
@@ -83,6 +114,33 @@ articleRoutes.route("/article/add").post(function (req, response) {
   });
 });
 
+//rejected collection
+articleRoutes.route("/rejected/add").post(function (req, response) {
+  console.log("HERE")
+  let db_connect = dbo.getDb();
+  let myobj = {
+    title: req.body.title,
+    author: req.body.author,
+    journal: req.body.journal,
+    year: req.body.year,
+    volume: req.body.volume,
+    number: req.body.number,
+    pages: req.body.pages,
+    doi: req.body.doi,
+    claim: req.body.claim
+  };
+
+  const evideince = new article(myobj);
+
+  db_connect.collection("rejected").insertOne(evideince, function (err, res) {
+    if (err) throw err;
+    response.json(res);
+  });
+
+  evideince.save();
+
+});
+
 // This section will help you update a record by id.
 articleRoutes.route("/update/:id").post(function (req, response) {
   let db_connect = dbo.getDb();
@@ -108,11 +166,49 @@ articleRoutes.route("/update/:id").post(function (req, response) {
   });
 });
 
+
+//rejected collection
+articleRoutes.route("/update/:id").post(function (req, response) {
+  let db_connect = dbo.getDb();
+  let myquery = { _id: ObjectId(req.params.id) };
+  let newvalues = {
+    $set: {
+      title: req.body.title,
+      author: req.body.author,
+      journal: req.body.journal,
+      year: req.body.year,
+      volume: req.body.volume,
+      number: req.body.number,
+      pages: req.body.pages,
+      doi: req.body.doi,
+      claim: req.body.claim
+    },
+  };
+  db_connect.collection("rejected").updateOne(myquery, newvalues, function (err, res) {
+    if (err) throw err;
+    else
+      console.log(res);
+    response.json(res);
+  });
+});
+
 // This section will help you delete a record
 articleRoutes.route("/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   db_connect.collection("articles").deleteOne(myquery, function (err, obj) {
+    if (err) throw err;
+    console.log("1 document deleted");
+    response.json(obj);
+  });
+});
+
+
+//analyst collection
+articleRoutes.route("/:id").delete((req, response) => {
+  let db_connect = dbo.getDb();
+  let myquery = { _id: ObjectId(req.params.id) };
+  db_connect.collection("analyst").deleteOne(myquery, function (err, obj) {
     if (err) throw err;
     console.log("1 document deleted");
     response.json(obj);
