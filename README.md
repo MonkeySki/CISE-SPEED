@@ -16,11 +16,11 @@ With mongoDB set up create two separate terminals to run the frontend and backen
 In the first terminal navigate to the backend directory. \
 From the backend directory \
 run npm install \
-npm start \
+npm start 
 
 In the second terminal navigate to the frontend directory. \
 From the frontend directory \
 run npm install \
-npm start \
+npm start 
 
 The application is now launched and connected to your databse enjoy :)
