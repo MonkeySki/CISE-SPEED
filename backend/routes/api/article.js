@@ -168,7 +168,7 @@ articleRoutes.route("/update/:id").post(function (req, response) {
 
 
 //rejected collection
-articleRoutes.route("/update/:id").post(function (req, response) {
+articleRoutes.route("/rejected/:id").post(function (req, response) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   let newvalues = {
