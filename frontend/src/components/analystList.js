@@ -48,14 +48,6 @@ export default function ArticleList() {
     },
   ];
 
-  //this method adds rejected articles to the rejected collection in the db
-  // useEffect(() => {
-  //   async function rejectArticle(){
-
-  //   }
-  // })
-
-
   const columns = [
     { field: "title", headerName: "Title", width: 100 },
     { field: "author", headerName: "Author", width: 100 },
@@ -75,10 +67,10 @@ export default function ArticleList() {
             id="acceptButton1"
             variant="contained"
             color="primary"
-            //onClick={() => handleReject(_id)}
-            // onClick={(event) => {
-            //   console.log('accept button clicked');
-            // }}
+            onClick={(event) => {
+              handleAccept(_id);
+              deleteRow(_id);
+            }}
           >
             Accept
           </Button>
@@ -130,7 +122,7 @@ export default function ArticleList() {
 
     getArticles();
     return;
-  }, [articles.length]);
+  }, []);
 
   //For Year Search
   const [filterModel, setFilterModel] = React.useState({
@@ -232,28 +224,62 @@ export default function ArticleList() {
     console.log("clicked:", param);
   };
 
-  const handleReject = (clickedArticle) => {
-    setArticles(articles.filter((article) => article._id !== clickedArticle.id));
-    console.log(clickedArticle.id);
-    console.log(clickedArticle.title);
-    console.log(clickedArticle.rows.title);
-
-    // const rejectedArticle = {
-    //   id: clickedArticle.id,
-    //   title: clickedArticle.title,
-    //   author: clickedArticle.author,
-    //   year: clickedArticle.year,
-    //   volume: clickedArticle.volume,
-    //   number: clickedArticle.number,
-    //   pages: clickedArticle.pages,
-    //   doi: clickedArticle.doi,
-    //   claim: clickedArticle.claim,
-    // }
-
-    axios.post(('http://localhost:5000/rejected/add'));
+  //function to delete row from datagrid
+  const deleteRow = (clickedArticle) => {
+    setArticles(articles.filter((article) => article.row._id !== clickedArticle.row._id));
+    console.log(clickedArticle.row._id);
   }
 
 
+  //When analyst clicks reject, that articles data is collected and added to the rejected collection
+  async function handleReject(clickedArticle) {
+
+    const rejectedArticle = {
+          title: clickedArticle.row.title,
+          author: clickedArticle.row.author,
+          year: clickedArticle.row.year,
+          volume: clickedArticle.row.volume,
+          number: clickedArticle.row.number,
+          pages: clickedArticle.row.pages,
+          doi: clickedArticle.row.doi,
+          claim: clickedArticle.row.claim,
+        }
+
+    await axios.post('http://localhost:5000/rejected', rejectedArticle).then(res => {
+      if (res.data.success === 1) {
+        console.log("rejected article added");
+      }
+    })
+      .catch(error => {
+        window.alert(error);
+        return;
+      });
+  }
+
+  //When analyst clicks accpet, that article's data is collected adn added to the articles collection
+  async function handleAccept(clickedArticle) {
+
+    const acceptedArticle = {
+      title: clickedArticle.row.title,
+      author: clickedArticle.row.author,
+      year: clickedArticle.row.year,
+      volume: clickedArticle.row.volume,
+      number: clickedArticle.row.number,
+      pages: clickedArticle.row.pages,
+      doi: clickedArticle.row.doi,
+      claim: clickedArticle.row.claim,
+    }
+
+    await axios.post('http://localhost:5000/article/add', acceptedArticle).then(res => {
+      if (res.data.success === 1) {
+        console.log("evidence added");
+      }
+    })
+      .catch(error => {
+        window.alert(error);
+        return;
+      });
+  }
   // This following section will display the table with the records of individuals.
   return (
     <div>
