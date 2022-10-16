@@ -9,6 +9,8 @@ const article = require("../../model/article")
 
 // This will help us connect to the database
 const dbo = require("../../db/conn");
+const { json } = require("body-parser");
+const { response } = require("express");
 
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
@@ -150,18 +152,15 @@ articleRoutes.route("/moderator/add").post(function (req, response) {
 });
 
 articleRoutes.route('/moderator/delete/:id').delete(function (req, res) {
-  console.log("test heree")
   let db_connect = dbo.getDb("cise");
-  var id = req.params.id;
-  console.log("id " + id);
-  
- 
-  let x = db_connect.collection("moderator").deleteOne(
-    {_id: id}, function (err, result) {
+
+  let myquery = { _id: ObjectId(req.params.id) };
+  db_connect
+    .collection("moderator")
+    .deleteOne(myquery, function (err, result) {
       if (err) throw err;
       res.json(result);
     });
-    console.log("res "+ res);
 })
   
 
