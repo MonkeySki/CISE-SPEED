@@ -18,15 +18,28 @@ describe("Testing Create", () => {
         expect(submisionPage).toBeInTheDocument();
     })
 
-    it("User input in text fields", async()=>{
-        render(<App/>);
+    it("User input in text fields", async () => {
+        render(<App />);
 
         const user = userEvent;
         const navigateCreatePage = screen.getByRole("link", { name: /Create New Article/i })
         await user.click(navigateCreatePage);
 
-        const submisionPage = screen.getByRole("textbox",{name: "Title"});
-        await user.type(submisionPage,"Test Title");
+        const submisionPage = screen.getByRole("textbox", { name: "Title" });
+        await user.type(submisionPage, "Test Title");
         expect(submisionPage).toHaveValue("Test Title");
+    })
+
+    it("Submit with claim strength", async () => {
+        render(<App />);
+
+        const user = userEvent;
+        const navigateCreatePage = screen.getByRole("link", { name: /Create New Article/i })
+        await user.click(navigateCreatePage);
+
+        const submisionPage = screen.getByRole('combobox',{name: "Claim Strength"});
+        expect(submisionPage).toHaveValue('Strongly Agree');
+
+        expect(screen.getByRole('option', { name: 'Strongly Agree' }).selected).toBe(true)
     })
 })

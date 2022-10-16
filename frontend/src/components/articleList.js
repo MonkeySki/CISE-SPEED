@@ -9,7 +9,7 @@ import SyncIcon from '@mui/icons-material/Sync';
 export default function ArticleList() {
   const [articles, setArticles] = useState([]);
   const rows = articles.map(
-    ({ _id, title, author, year, volume, number, pages, doi, claim }) => ({
+    ({ _id, title, author, year, volume, number, pages, doi, claim,claimStrength }) => ({
       id: _id,
       title,
       author,
@@ -19,6 +19,7 @@ export default function ArticleList() {
       pages,
       doi,
       claim,
+      claimStrength
     })
   );
 
@@ -56,6 +57,7 @@ export default function ArticleList() {
     { field: "pages", headerName: "Pages", width: 100 },
     { field: "doi", headerName: "Doi", width: 100 },
     { field: "claim", headerName: "Claim Type", width: 100 },
+    {field: "claimStrength",headerName:"Claim Strength",width:150},
   ];
   // This method fetches the records from the database.
   useEffect(() => {
