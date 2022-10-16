@@ -5,11 +5,12 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import SyncIcon from '@mui/icons-material/Sync';
+import { Button } from "@mui/material";
 
 export default function ArticleList() {
   const [articles, setArticles] = useState([]);
   const rows = articles.map(
-    ({ _id, title, author, year, volume, number, pages, doi, claim }) => ({
+    ({ _id, title, author, year, volume, number, pages, doi, claim, }) => ({
       id: _id,
       title,
       author,
@@ -34,7 +35,7 @@ export default function ArticleList() {
         if (filterItem.value[0] == null || filterItem.value[1] == null) {
           return null;
         }
-  
+
         return ({ value }) => {
           return (
             value !== null &&
@@ -56,15 +57,60 @@ export default function ArticleList() {
     { field: "pages", headerName: "Pages", width: 100 },
     { field: "doi", headerName: "Doi", width: 100 },
     { field: "claim", headerName: "Claim Type", width: 100 },
+    {
+      field: "Accept", headerName: "Accept", width: 100, filterable: false, hideable: false, sortable: false,
+      headerAlign: 'center',
+      //feild accept should render buttons
+      renderCell: (_id) => {
+        return (
+          <Button
+            id="acceptButton1"
+            variant="contained"
+            color="primary"
+            onClick={(event) => {
+              handleAccept(_id);
+              deleteRow(_id);
+            }}
+          >
+            Accept
+          </Button>
+        );
+      },
+      disableClickEventBubbling: true
+    },
+    {
+      field: "Reject", headerName: "Reject", width: 100, filterable: false, hideable: false, sortable: false,
+      headerAlign: 'center',
+        //feild reject should buttons
+      renderCell: (_id) => {
+        return (
+          <Button
+            id="rejectButton1"
+            variant="contained"
+            color="primary"
+            onClick={(event) => {
+              // console.log('reject button clicked');
+              handleReject(_id);
+
+            }}
+          >
+            Reject
+          </Button>
+        );
+      },
+      disableClickEventBubbling: true
+    },
   ];
+
+
   // This method fetches the records from the database.
   useEffect(() => {
     async function getArticles() {
-      await axios.get("/article").then((res) => {
+      await axios.get("http://localhost:5000/analyst").then((res) => {
         console.log(res);
         if (!res.statusText === "OK") {
           console.log("checking for articles");
-          const message = `An error occurred: /article `;
+          const message = `An error occurred: /analyst `;
           window.alert(message);
           return;
         }
@@ -76,7 +122,7 @@ export default function ArticleList() {
 
     getArticles();
     return;
-  }, [articles.length]);
+  }, []);
 
   //For Year Search
   const [filterModel, setFilterModel] = React.useState({
@@ -90,99 +136,157 @@ export default function ArticleList() {
     ],
   });
   const SUBMIT_FILTER_STROKE_TIME = 500;
-function InputNumberInterval(props) {
-  const { item, applyValue, focusElementRef = null } = props;
-  const filterTimeout = React.useRef();
-  const [filterValueState, setFilterValueState] = React.useState(item.value ?? '');
-  const [applying, setIsApplying] = React.useState(false);
-  React.useEffect(() => {
-    return () => {
+  function InputNumberInterval(props) {
+    const { item, applyValue, focusElementRef = null } = props;
+    const filterTimeout = React.useRef();
+    const [filterValueState, setFilterValueState] = React.useState(item.value ?? '');
+    const [applying, setIsApplying] = React.useState(false);
+    React.useEffect(() => {
+      return () => {
+        clearTimeout(filterTimeout.current);
+      };
+    }, []);
+    React.useEffect(() => {
+      const itemValue = item.value ?? [undefined, undefined];
+      setFilterValueState(itemValue);
+    }, [item.value]);
+    const updateFilterValue = (lowerBound, upperBound) => {
       clearTimeout(filterTimeout.current);
-    };
-  }, []);
-  React.useEffect(() => {
-    const itemValue = item.value ?? [undefined, undefined];
-    setFilterValueState(itemValue);
-  }, [item.value]);
-  const updateFilterValue = (lowerBound, upperBound) => {
-    clearTimeout(filterTimeout.current);
-    setFilterValueState([lowerBound, upperBound]);
+      setFilterValueState([lowerBound, upperBound]);
 
-    setIsApplying(true);
-    filterTimeout.current = setTimeout(() => {
-      setIsApplying(false);
-      applyValue({ ...item, value: [lowerBound, upperBound] });
-    }, SUBMIT_FILTER_STROKE_TIME);
+      setIsApplying(true);
+      filterTimeout.current = setTimeout(() => {
+        setIsApplying(false);
+        applyValue({ ...item, value: [lowerBound, upperBound] });
+      }, SUBMIT_FILTER_STROKE_TIME);
+    };
+    const handleUpperFilterChange = (event) => {
+      const newUpperBound = event.target.value;
+      updateFilterValue(filterValueState[0], newUpperBound);
+    };
+    const handleLowerFilterChange = (event) => {
+      const newLowerBound = event.target.value;
+      updateFilterValue(newLowerBound, filterValueState[1]);
+    };
+    return (
+      <Box
+        sx={{
+          display: 'inline-flex',
+          flexDirection: 'row',
+          alignItems: 'end',
+          height: 48,
+          pl: '20px',
+        }}
+      >
+        <TextField
+          name="lower-bound-input"
+          placeholder="From"
+          label="From"
+          variant="standard"
+          value={Number(filterValueState[0])}
+          onChange={handleLowerFilterChange}
+          type="number"
+          inputRef={focusElementRef}
+          sx={{ mr: 2 }}
+        />
+        <TextField
+          name="upper-bound-input"
+          placeholder="To"
+          label="To"
+          variant="standard"
+          value={Number(filterValueState[1])}
+          onChange={handleUpperFilterChange}
+          type="number"
+          InputProps={applying ? { endAdornment: <SyncIcon /> } : {}}
+        />
+      </Box>
+    );
+  }
+  InputNumberInterval.propTypes = {
+    applyValue: PropTypes.func.isRequired,
+    focusElementRef: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.shape({
+        current: PropTypes.any.isRequired,
+      }),
+    ]),
+    item: PropTypes.shape({
+      columnField: PropTypes.string.isRequired,
+      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+      operatorValue: PropTypes.string,
+      value: PropTypes.any,
+    }).isRequired,
   };
-  const handleUpperFilterChange = (event) => {
-    const newUpperBound = event.target.value;
-    updateFilterValue(filterValueState[0], newUpperBound);
-  };
-  const handleLowerFilterChange = (event) => {
-    const newLowerBound = event.target.value;
-    updateFilterValue(newLowerBound, filterValueState[1]);
-  };
-  return (
-    <Box
-      sx={{
-        display: 'inline-flex',
-        flexDirection: 'row',
-        alignItems: 'end',
-        height: 48,
-        pl: '20px',
-      }}
-    >
-      <TextField
-        name="lower-bound-input"
-        placeholder="From"
-        label="From"
-        variant="standard"
-        value={Number(filterValueState[0])}
-        onChange={handleLowerFilterChange}
-        type="number"
-        inputRef={focusElementRef}
-        sx={{ mr: 2 }}
-      />
-      <TextField
-        name="upper-bound-input"
-        placeholder="To"
-        label="To"
-        variant="standard"
-        value={Number(filterValueState[1])}
-        onChange={handleUpperFilterChange}
-        type="number"
-        InputProps={applying ? { endAdornment: <SyncIcon /> } : {}}
-      />
-    </Box>
-  );
-}
-InputNumberInterval.propTypes = {
-  applyValue: PropTypes.func.isRequired,
-  focusElementRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({
-      current: PropTypes.any.isRequired,
-    }),
-  ]),
-  item: PropTypes.shape({
-    columnField: PropTypes.string.isRequired,
-    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    operatorValue: PropTypes.string,
-    value: PropTypes.any,
-  }).isRequired,
-};
+
 
   //ON CLICK HANDLE STUFF
   const handleOnCellClick = (param) => {
     console.log("clicked:", param);
   };
 
+  //function to delete row from datagrid
+  const deleteRow = (clickedArticle) => {
+    setArticles(articles.filter((article) => article.row._id !== clickedArticle.row._id));
+    console.log(clickedArticle.row._id);
+  }
+
+
+  //When analyst clicks reject, that articles data is collected and added to the rejected collection
+  async function handleReject(clickedArticle) {
+
+    const rejectedArticle = {
+          title: clickedArticle.row.title,
+          author: clickedArticle.row.author,
+          year: clickedArticle.row.year,
+          volume: clickedArticle.row.volume,
+          number: clickedArticle.row.number,
+          pages: clickedArticle.row.pages,
+          doi: clickedArticle.row.doi,
+          claim: clickedArticle.row.claim,
+        }
+
+    await axios.post('http://localhost:5000/rejected/add', rejectedArticle).then(res => {
+      if (res.data.success === 1) {
+        console.log("rejected article added");
+      }
+    })
+      .catch(error => {
+        window.alert(error);
+        return;
+      });
+  }
+
+  //When analyst clicks accpet, that article's data is collected adn added to the articles collection
+  async function handleAccept(clickedArticle) {
+
+    const acceptedArticle = {
+      title: clickedArticle.row.title,
+      author: clickedArticle.row.author,
+      year: clickedArticle.row.year,
+      volume: clickedArticle.row.volume,
+      number: clickedArticle.row.number,
+      pages: clickedArticle.row.pages,
+      doi: clickedArticle.row.doi,
+      claim: clickedArticle.row.claim,
+    }
+
+    await axios.post('http://localhost:5000/article/add', acceptedArticle).then(res => {
+      if (res.data.success === 1) {
+        console.log("evidence added");
+      }
+    })
+      .catch(error => {
+        window.alert(error);
+        return;
+      });
+  }
   // This following section will display the table with the records of individuals.
   return (
     <div>
-      <h3 className="Article-list">Article List</h3>
+      <h3 className="Analyst-list">Analyst List</h3>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
+          disableColumnFilter
           rows={rows}
           columns={columns}
           pageSize={5}

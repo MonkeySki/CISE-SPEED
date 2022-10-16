@@ -103,6 +103,7 @@ articleRoutes.route("/:id").delete((req, response) => {
 //////////////////////
 
 articleRoutes.route("/moderator").get(function (req, res) {
+
   let db_connect = dbo.getDb("cise");
   db_connect
     .collection("moderator")
@@ -148,15 +149,22 @@ articleRoutes.route("/moderator/add").post(function (req, response) {
   });
 });
 
-articleRoutes.delete('/moderator/delete/:id', (req, res) => {
-      var id = req.params.id;
-      db_connect.collection("moderator").deleteOne(id, function (err, res) {
-      if (err) throw err; 
-      response.json(res);
-      }
-    
-  );
-});
+articleRoutes.route('/moderator/delete/:id').delete(function (req, res) {
+  console.log("test heree")
+  let db_connect = dbo.getDb("cise");
+  var id = req.params.id;
+  console.log("id " + id);
+  
+ 
+  let x = db_connect.collection("moderator").deleteOne(
+    {_id: id}, function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+    console.log("res "+ res);
+})
+  
+
 
 
 
@@ -209,5 +217,68 @@ articleRoutes.route("/analyst/add").post(function (req, response) {
     response.json(res);
   });
 });
+
+
+///////////////////////
+//  REJECTED ROUTES  //
+///////////////////////
+
+articleRoutes.route("/rejected").get(function (req, res) {
+  let db_connect = dbo.getDb("cise");
+  db_connect
+    .collection("rejected")
+    .find({})
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+});
+
+// This section will help you get a single moderator record by id
+articleRoutes.route("/rejected/:id").get(function (req, res) {
+  let db_connect = dbo.getDb();
+  let myquery = { _id: ObjectId(req.params.id) };
+  db_connect
+    .collection("moderator")
+    .findOne(myquery, function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+});
+
+// This section will help you create a new moderator record.
+articleRoutes.route("/rejected/add").post(function (req, response) {
+  let db_connect = dbo.getDb();
+  let myobj = {
+    title: req.body.title,
+    author: req.body.author,
+    journal: req.body.journal,
+    year: req.body.year,
+    volume: req.body.volume,
+    number: req.body.number,
+    pages: req.body.pages,
+    doi: req.body.doi,
+    claim: req.body.claim,
+
+  };
+
+  const evidence = new article(myobj);
+  db_connect.collection("rejected").insertOne(evidence, function (err, res) {
+    if (err) throw err;
+    response.json(res);
+  });
+});
+
+articleRoutes.delete('/rejected/delete/:id', (req, res) => {
+  var id = req.params.id;
+  db_connect.collection("moderator").deleteOne(id, function (err, res) {
+    if (err) throw err;
+    response.json(res);
+  }
+
+  );
+});
+
+
 
 module.exports = articleRoutes;
