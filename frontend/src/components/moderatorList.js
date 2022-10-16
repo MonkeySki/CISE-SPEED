@@ -106,7 +106,7 @@ export default function ArticleList() {
   // This method fetches the records from the database.
   useEffect(() => {
     async function getModeratorArticles() {
-      await axios.get("http://localhost:5000/moderator").then((res) => {
+      await axios.get("/moderator").then((res) => {
         console.log(res);
         if (!res.statusText === "OK") {
           console.log("checking for articles");
@@ -115,9 +115,6 @@ export default function ArticleList() {
           return;
         }
         const articles = res.data;
-        console.log(articles)
-        console.log("WILD CHILD")
-        console.log(`Articles: ${articles}`);
         setArticles(articles);
       });
     }
@@ -237,7 +234,7 @@ export default function ArticleList() {
       claimStrength: clickedArticle.row.claimStrength,
     }
 
-    await axios.post('http://localhost:5000/analyst/add', acceptedArticle).then(res => {
+    await axios.post('/analyst/add', acceptedArticle).then(res => {
       if (res.data.success === 1) {
         console.log("evidence added");
       }
@@ -264,7 +261,7 @@ export default function ArticleList() {
 
     }
 
-    await axios.post('http://localhost:5000/rejected/add', rejectedArticle).then(res => {
+    await axios.post('/rejected/add', rejectedArticle).then(res => {
       if (res.data.success === 1) {
         console.log("rejected article added");
       }
@@ -280,11 +277,11 @@ export default function ArticleList() {
   //function to delete element from datagrid    NOT WORKING
   const deleteHandler = async (clickedArticle) => {
     try {
-      console.log(`http://localhost:5000/moderator/${clickedArticle.id}`)
+      console.log(`moderator/${clickedArticle.id}`)
 
 
       const response = await axios.delete(
-        `http://localhost:5000/moderator/delete/${clickedArticle.id}`
+        `moderator/delete/${clickedArticle.id}`
       ).then(res => {
         if (res.data.success === 1) {
           console.log("rejected article added");

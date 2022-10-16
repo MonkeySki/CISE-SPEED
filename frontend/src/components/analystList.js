@@ -106,7 +106,7 @@ export default function ArticleList() {
   // This method fetches the records from the database.
   useEffect(() => {
     async function getArticles() {
-      await axios.get("http://localhost:5000/analyst").then((res) => {
+      await axios.get("/analyst").then((res) => {
         console.log(res);
         if (!res.statusText === "OK") {
           console.log("checking for articles");
@@ -245,7 +245,7 @@ export default function ArticleList() {
           claim: clickedArticle.row.claim,
         }
 
-    await axios.post('http://localhost:5000/rejected/add', rejectedArticle).then(res => {
+    await axios.post('/rejected/add', rejectedArticle).then(res => {
       if (res.data.success === 1) {
         console.log("rejected article added");
       }
@@ -270,7 +270,7 @@ export default function ArticleList() {
       claim: clickedArticle.row.claim,
     }
 
-    await axios.post('http://localhost:5000/article/add', acceptedArticle).then(res => {
+    await axios.post('/article/add', acceptedArticle).then(res => {
       if (res.data.success === 1) {
         console.log("evidence added");
       }
