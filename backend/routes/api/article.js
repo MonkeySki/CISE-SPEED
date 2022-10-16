@@ -16,7 +16,6 @@ const ObjectId = require("mongodb").ObjectId;
 
 // This section will help you get a list of all the records.
 articleRoutes.route("/article").get(function (req, res) {
-  console.log("HERE")
   let db_connect = dbo.getDb("cise");
   db_connect
     .collection("articles")
@@ -108,16 +107,15 @@ articleRoutes.route("/article/add").post(function (req, response) {
 
   const evideince = new article(myobj);
   db_connect.collection("articles").insertOne(evideince, function (err, res) {
-    console.log("HERE")
+    //console.log("HERE")
     if (err) throw err;
     response.json(res);
   });
 });
 
 //rejected collection
-articleRoutes.route("/rejected/add").post(function (req, response) {
-  console.log("HERE")
-  let db_connect = dbo.getDb();
+articleRoutes.route("/rejected").post(function (req, response) {
+  let db_connect = dbo.getDb("cise");
   let myobj = {
     title: req.body.title,
     author: req.body.author,
@@ -131,14 +129,13 @@ articleRoutes.route("/rejected/add").post(function (req, response) {
   };
 
   const evideince = new article(myobj);
-
   db_connect.collection("rejected").insertOne(evideince, function (err, res) {
+    console.log("HERE")
     if (err) throw err;
     response.json(res);
   });
 
   evideince.save();
-
 });
 
 // This section will help you update a record by id.
