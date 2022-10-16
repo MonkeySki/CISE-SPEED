@@ -33,6 +33,10 @@ const ArticleSchema = new mongoose.Schema({
         type:String,
         required: false,
     },
+    claimStrength:{
+        type:String,
+        required: false,
+    },
     claim:{
         type:String,
         required: false,

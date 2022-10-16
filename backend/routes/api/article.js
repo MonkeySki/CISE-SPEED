@@ -19,6 +19,7 @@ const ObjectId = require("mongodb").ObjectId;
 // This section will help you get a list of all the records.
 articleRoutes.route("/article").get(function (req, res) {
   let db_connect = dbo.getDb("cise");
+  console.log("HERe")
   db_connect
     .collection("articles")
     .find({})
@@ -52,7 +53,8 @@ articleRoutes.route("/article/add").post(function (req, response) {
     number: req.body.number,
     pages: req.body.pages,
     doi: req.body.doi,
-    claim: req.body.claim
+    claim: req.body.claim,
+    claimStrength: req.body.claimStrength
   };
 
   const evideince = new article(myobj);
@@ -77,7 +79,9 @@ articleRoutes.route("/update/:id").post(function (req, response) {
       number: req.body.number,
       pages: req.body.pages,
       doi: req.body.doi,
-      claim: req.body.claim
+      claim: req.body.claim,
+      claimStrength: req.body.claimStrength
+
     },
   };
   db_connect.collection("articles").updateOne(myquery, newvalues, function (err, res) {
@@ -103,10 +107,10 @@ articleRoutes.route("/:id").delete((req, response) => {
 //////////////////////
 // MODERATOR ROUTES //
 //////////////////////
-
+// This section will help you get a list of all the records.
 articleRoutes.route("/moderator").get(function (req, res) {
-
   let db_connect = dbo.getDb("cise");
+  console.log("ww")
   db_connect
     .collection("moderator")
     .find({})
@@ -114,7 +118,7 @@ articleRoutes.route("/moderator").get(function (req, res) {
       if (err) throw err;
       res.json(result);
     });
-});
+})
 
 // This section will help you get a single moderator record by id
 articleRoutes.route("/moderator/:id").get(function (req, res) {
@@ -141,7 +145,7 @@ articleRoutes.route("/moderator/add").post(function (req, response) {
     pages: req.body.pages,
     doi: req.body.doi,
     claim: req.body.claim,
-
+    claimStrength: req.body.claimStrength
   };
 
   const evidence = new article(myobj);
@@ -162,7 +166,7 @@ articleRoutes.route('/moderator/delete/:id').delete(function (req, res) {
       res.json(result);
     });
 })
-  
+
 
 
 
@@ -209,6 +213,7 @@ articleRoutes.route("/analyst/add").post(function (req, response) {
     pages: req.body.pages,
     doi: req.body.doi,
     claim: req.body.claim,
+    claimStrength: req.body.claimStrength
 
   };
 
@@ -259,7 +264,10 @@ articleRoutes.route("/rejected/add").post(function (req, response) {
     number: req.body.number,
     pages: req.body.pages,
     doi: req.body.doi,
-    claim: req.body.claim
+    claim: req.body.claim,
+    claimStrength: req.body.claimStrength
+
+
   };
 
   const evideince = new article(myobj);
