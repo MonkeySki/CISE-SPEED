@@ -10,7 +10,7 @@ import { Button } from "@mui/material";
 export default function ArticleList() {
   const [articles, setArticles] = useState([]);
   const rows = articles.map(
-    ({ _id, title, author, year, volume, number, pages, doi, claim, }) => ({
+    ({ _id, title, author, year, volume, number, pages, doi, claim,claimStrength }) => ({
       id: _id,
       title,
       author,
@@ -20,6 +20,7 @@ export default function ArticleList() {
       pages,
       doi,
       claim,
+      claimStrength
     })
   );
 
@@ -56,6 +57,7 @@ export default function ArticleList() {
     { field: "pages", headerName: "Pages", width: 100 },
     { field: "doi", headerName: "Doi", width: 100 },
     { field: "claim", headerName: "Claim Type", width: 200 },
+    { field: "claimStrength", headerName: "Claim Strength", width: 150 },
     {
       field: "approve",
       headerName: "Approve",
@@ -69,7 +71,7 @@ export default function ArticleList() {
             onClick={(event) => {
               handleAccept(_id);
               deleteHandler(_id);
-              document.location.reload(true); 
+              document.location.reload(true);
             }}
           >
             Approve
@@ -113,6 +115,8 @@ export default function ArticleList() {
           return;
         }
         const articles = res.data;
+        console.log(articles)
+        console.log("WILD CHILD")
         console.log(`Articles: ${articles}`);
         setArticles(articles);
       });
@@ -230,6 +234,7 @@ export default function ArticleList() {
       pages: clickedArticle.row.pages,
       doi: clickedArticle.row.doi,
       claim: clickedArticle.row.claim,
+      claimStrength: clickedArticle.row.claimStrength,
     }
 
     await axios.post('http://localhost:5000/analyst/add', acceptedArticle).then(res => {
@@ -255,6 +260,8 @@ export default function ArticleList() {
       pages: clickedArticle.row.pages,
       doi: clickedArticle.row.doi,
       claim: clickedArticle.row.claim,
+      claimStrength: clickedArticle.row.claimStrength,
+
     }
 
     await axios.post('http://localhost:5000/rejected/add', rejectedArticle).then(res => {
@@ -274,8 +281,8 @@ export default function ArticleList() {
   const deleteHandler = async (clickedArticle) => {
     try {
       console.log(`http://localhost:5000/moderator/${clickedArticle.id}`)
-      
-      
+
+
       const response = await axios.delete(
         `http://localhost:5000/moderator/delete/${clickedArticle.id}`
       ).then(res => {
@@ -283,12 +290,12 @@ export default function ArticleList() {
           console.log("rejected article added");
         }
       })
-      
+
     } catch (error) {
       console.log("Something went wrong", error)
     }
   }
-  
+
 
 
   //ON CLICK HANDLE STUFF, FOR TESTING DELETE ME FOR FINAL
