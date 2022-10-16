@@ -51,7 +51,7 @@ export default function ArticleList() {
     { field: "title", headerName: "Title", width: 100 },
     { field: "author", headerName: "Author", width: 100 },
     { field: "year", headerName: "Year", width: 100, filterOperators: quantityOnlyOperators },
-    { field: "volume", headerName: "Volume", width: 100 },
+    { field: "volume", headerName: "Volume", widtWh: 100 },
     { field: "number", headerName: "Number", width: 100 },
     { field: "pages", headerName: "Pages", width: 100 },
     { field: "doi", headerName: "Doi", width: 100 },
@@ -244,7 +244,7 @@ export default function ArticleList() {
   }
 
   //function to add article to rejected collection
-  async function handleReject(clickedArticle) {
+  async function  handleReject(clickedArticle) {
 
     const rejectedArticle = {
       title: clickedArticle.row.title,

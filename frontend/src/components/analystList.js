@@ -58,47 +58,46 @@ export default function ArticleList() {
     { field: "doi", headerName: "Doi", width: 100 },
     { field: "claim", headerName: "Claim Type", width: 100 },
     {
-      field: "Accept", headerName: "Accept", width: 100, filterable: false, hideable: false, sortable: false,
-      headerAlign: 'center',
-      //feild accept should render buttons
+      field: "approve",
+      headerName: "Approve",
+      width: 100,
+
       renderCell: (_id) => {
         return (
           <Button
-            id="acceptButton1"
             variant="contained"
-            color="primary"
+            class="btn btn-success"
             onClick={(event) => {
               handleAccept(_id);
-              deleteRow(_id);
+              deleteHandler(_id);
+              document.location.reload(true); 
             }}
           >
-            Accept
+            Approve
           </Button>
         );
-      },
-      disableClickEventBubbling: true
+      }
     },
     {
-      field: "Reject", headerName: "Reject", width: 100, filterable: false, hideable: false, sortable: false,
-      headerAlign: 'center',
-        //feild reject should buttons
+      field: "Reject",
+      headerName: "Reject",
+      width: 100,
+
       renderCell: (_id) => {
         return (
           <Button
-            id="rejectButton1"
             variant="contained"
-            color="primary"
+            class="btn btn-danger"
             onClick={(event) => {
-              // console.log('reject button clicked');
               handleReject(_id);
-
+              deleteHandler(_id);
+              document.location.reload(true)
             }}
           >
             Reject
           </Button>
         );
-      },
-      disableClickEventBubbling: true
+      }
     },
   ];
 
