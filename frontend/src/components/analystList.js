@@ -245,7 +245,7 @@ export default function ArticleList() {
           claim: clickedArticle.row.claim,
         }
 
-    await axios.post('http://localhost:5000/rejected', rejectedArticle).then(res => {
+    await axios.post('http://localhost:5000/rejected/add', rejectedArticle).then(res => {
       if (res.data.success === 1) {
         console.log("rejected article added");
       }
