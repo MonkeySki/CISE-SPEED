@@ -194,6 +194,8 @@ articleRoutes.route("/analyst/:id").get(function (req, res) {
     });
 });
 
+
+
 // This section will help you create a new analyst record.
 articleRoutes.route("/analyst/add").post(function (req, response) {
   let db_connect = dbo.getDb();
@@ -245,7 +247,7 @@ articleRoutes.route("/rejected/:id").get(function (req, res) {
     });
 });
 
-// This section will help you create a new moderator record.
+// This section will help you create a new record.
 articleRoutes.route("/rejected/add").post(function (req, response) {
   let db_connect = dbo.getDb();
   let myobj = {
@@ -257,12 +259,12 @@ articleRoutes.route("/rejected/add").post(function (req, response) {
     number: req.body.number,
     pages: req.body.pages,
     doi: req.body.doi,
-    claim: req.body.claim,
-
+    claim: req.body.claim
   };
 
-  const evidence = new article(myobj);
-  db_connect.collection("rejected").insertOne(evidence, function (err, res) {
+  const evideince = new article(myobj);
+  db_connect.collection("rejected").insertOne(evideince, function (err, res) {
+    console.log("HERE")
     if (err) throw err;
     response.json(res);
   });
