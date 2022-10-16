@@ -17,7 +17,8 @@ export default function Create() {
     number: '',
     pages: '',
     doi: '',
-    claim: ''
+    claim: '',
+    claimStrength: ''
   });
 
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ export default function Create() {
     // When a post request is sent to the create url, we'll add a new record to the database.
     const newArticle = { ...form };
 
-    await axios.post('http://localhost:5000/article/add', newArticle).then(res => {
+    await axios.post('/moderator/add', newArticle).then(res => {
       if (res.data.success === 1) {
         console.log("evidence added");
       }
@@ -82,7 +83,9 @@ export default function Create() {
       number: "",
       pages: "",
       doi: "",
-      claim: ""
+      claim: "",
+      claimStrength: ''
+
     });
     navigate("/");
   }
@@ -184,6 +187,17 @@ export default function Create() {
             <option value="Component Driven Development">Component Driven Development</option>
             <option value="Integration Driven Development">Integration Driven Development</option>
             <option value="Systems Development">Systems Development</option>
+
+          </select>
+
+        </div>
+        <div className="form-group">
+          <label htmlFor="claimStrength">Claim Strength</label>
+          <select id="claimStrength" name="claimStrength" onChange={(e) => updateForm({ claimStrength: e.target.value })}>
+            <option value="Strongly Agree">Strongly Agree</option>
+            <option value="Agree">Agree</option>
+            <option value="Disagree">Disagree</option>
+            <option value="Strongly disagree">Strongly disagree</option>
 
           </select>
 

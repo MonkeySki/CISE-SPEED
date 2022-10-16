@@ -2,9 +2,7 @@ name: CI_action
 
 on:
   push:
-    branches: [main, wip_create_tests]
-  pull_request:
-    branches: [main, dev]
+    branches: [main]
 
 jobs:
   build:
