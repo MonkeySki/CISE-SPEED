@@ -276,13 +276,13 @@ export default function ArticleList() {
       console.log(`http://localhost:5000/moderator/${clickedArticle.id}`)
       
       
-      const response = await axios.delete(
-        `http://localhost:5000/moderator/delete/${clickedArticle.id}`
-      ).then(res => {
-        if (res.data.success === 1) {
-          console.log("rejected article added");
-        }
-      })
+    //   const response = await axios.delete(
+    //     `http://localhost:5000/moderator/delete/${clickedArticle.id}`
+    //   ).then(res => {
+    //     if (res.data.success === 1) {
+    //       console.log("rejected article added");
+    //     }
+    //   })
       
     } catch (error) {
       console.log("Something went wrong", error)
