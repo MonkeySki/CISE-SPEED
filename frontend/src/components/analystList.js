@@ -224,10 +224,10 @@ export default function ArticleList() {
     console.log("clicked:", param);
   };
 
-  //function to delete row from datagrid -- not working
+  //function to delete row from datagrid
   const deleteRow = (clickedArticle) => {
-    setArticles(articles.filter((article) => article._id !== clickedArticle._id));
-    console.log(clickedArticle._id);
+    setArticles(articles.filter((article) => article.row._id !== clickedArticle.row._id));
+    console.log(clickedArticle.row._id);
   }
 
 
