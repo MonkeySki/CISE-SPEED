@@ -1,0 +1,33 @@
+name: CI_action
+
+on:
+  push:
+    branches: [main, wip_create_tests]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Prepare Backend
+        run: npm run prepare-backend
+
+      - name: Prepare Frontend
+        run: npm run prepare-react
+
+      - name: Run Tests
+        run: npm run test-react

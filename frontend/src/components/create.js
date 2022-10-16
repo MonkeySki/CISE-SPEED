@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import axios from "axios"
 import { Input } from "@mui/material"
 import "./create.css"
+var bibtextParse = require('bibtex-parse-js');
 
 
 export default function Create() {
@@ -31,6 +32,7 @@ export default function Create() {
     reader.onload = function () {
       let a = reader.result
       console.log(reader.result);
+      const test = bibtextParse.toJSON(a);
 
       const { title, author, journal, number, pages, volume, year } = test[0].entryTags
 
@@ -61,7 +63,7 @@ export default function Create() {
     // When a post request is sent to the create url, we'll add a new record to the database.
     const newArticle = { ...form };
 
-    await axios.post('http://localhost:5000/moderator/add', newArticle).then(res => {
+    await axios.post('http://localhost:5000/article/add', newArticle).then(res => {
       if (res.data.success === 1) {
         console.log("evidence added");
       }
@@ -195,6 +197,8 @@ export default function Create() {
         </div>
       </form>
       <div>
+
+
 
       </div>
     </div>
