@@ -240,6 +240,7 @@ export default function ArticleList() {
     await axios.post('/analyst/add', acceptedArticle).then(res => {
       if (res.data.success === 1) {
         console.log("evidence added");
+        navigate("/");
       }
     })
       .catch(error => {
@@ -247,7 +248,6 @@ export default function ArticleList() {
         return;
       });
 
-    navigate("/");
   }
 
   //function to add article to rejected collection
