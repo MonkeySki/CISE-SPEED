@@ -108,7 +108,6 @@ articleRoutes.route("/:id").delete((req, response) => {
 // This section will help you get a list of all the records.
 articleRoutes.route("/moderator").get(function (req, res) {
   let db_connect = dbo.getDb("cise");
-  console.log("ww")
   db_connect
     .collection("moderator")
     .find({})
@@ -185,7 +184,6 @@ articleRoutes.route("/analyst").get(function (req, res) {
 });
 
 articleRoutes.route("/analyst/:id").get(function (req, res) {
-  console.log("Id")
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   db_connect
@@ -197,7 +195,6 @@ articleRoutes.route("/analyst/:id").get(function (req, res) {
 });
 
 articleRoutes.route('/analyst/delete/:id').delete(function (req, res) {
-  console.log("HeRe")
   let db_connect = dbo.getDb("cise");
 
   let myquery = { _id: ObjectId(req.params.id) };

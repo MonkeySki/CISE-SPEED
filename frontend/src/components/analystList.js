@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import SyncIcon from '@mui/icons-material/Sync';
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router";
 
 export default function ArticleList() {
   const [articles, setArticles] = useState([]);
@@ -23,6 +24,8 @@ export default function ArticleList() {
       claimStrength
     })
   );
+
+  const navigate = useNavigate();
 
   //So we can search a year range.
   const quantityOnlyOperators = [
@@ -71,7 +74,6 @@ export default function ArticleList() {
             onClick={(event) => {
               handleAccept(_id);
               deleteHandler(_id);
-              document.location.reload(true);
             }}
           >
             Approve
@@ -92,7 +94,6 @@ export default function ArticleList() {
             onClick={(event) => {
               handleReject(_id);
               deleteHandler(_id);
-              document.location.reload(true)
             }}
           >
             Reject
@@ -107,9 +108,7 @@ export default function ArticleList() {
   useEffect(() => {
     async function getModeratorArticles() {
       await axios.get("/analyst").then((res) => {
-        console.log(res);
         if (!res.statusText === "OK") {
-          console.log("checking for articles");
           const message = `An error occurred: /article `;
           window.alert(message);
           return;
@@ -243,6 +242,10 @@ export default function ArticleList() {
         window.alert(error);
         return;
       });
+
+    const message = 'Article Accepted';
+    window.alert(message);
+    navigate("/");  
   }
 
   //function to add article to rejected collection
@@ -271,6 +274,9 @@ export default function ArticleList() {
         return;
       });
 
+    const message = 'Article Rejected';
+    window.alert(message);
+    navigate("/");  
   }
 
 
