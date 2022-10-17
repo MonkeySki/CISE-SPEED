@@ -34,12 +34,12 @@ export default function Navbar() {
              </NavLink>
            </li>
            <li className="nav-item">
-           <NavLink className="nav-link" to="/moderator">
+           <NavLink className="nav-link" to="/moderatorPage">
                Moderator
              </NavLink>
            </li>
            <li className="nav-item">
-           <NavLink className="nav-link" to="/analyst">
+           <NavLink className="nav-link" to="/analystPage">
                Analyst
              </NavLink>
            </li>

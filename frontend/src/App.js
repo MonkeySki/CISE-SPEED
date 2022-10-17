@@ -18,8 +18,8 @@ const App = () => {
         <Routes>
           <Route exact path="/" element={<RecordList />} />
           <Route path="/create" element={<Create />} />
-          <Route path="/moderator" element={<ModeratorList />} />
-          <Route path="/analyst" element={<AnalystList />} />
+          <Route path="/moderatorPage" element={<ModeratorList />} />
+          <Route path="/analystPage" element={<AnalystList />} />
           <Route path="/edit" element={<Edit />} />
         </Routes>
       </BrowserRouter>

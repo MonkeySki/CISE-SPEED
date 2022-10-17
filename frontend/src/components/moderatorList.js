@@ -246,7 +246,7 @@ export default function ArticleList() {
         window.alert(error);
         return;
       });
-      navigate("/moderator");
+      navigate("/moderatorPage");
   }
 
   //function to add article to rejected collection
