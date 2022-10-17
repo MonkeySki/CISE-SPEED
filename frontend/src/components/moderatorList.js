@@ -276,7 +276,9 @@ export default function ArticleList() {
         return;
       });
     
-    navigate("/");
+    const message = 'Article Rejected';
+    window.alert(message);
+    navigate("/");  
   }
 
 
