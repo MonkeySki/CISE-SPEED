@@ -246,7 +246,7 @@ export default function ArticleList() {
   }
 
   //function to add article to rejected collection
-  async function handleReject(clickedArticle) {
+  async function  handleReject(clickedArticle) {
 
     const rejectedArticle = {
       title: clickedArticle.row.title,
@@ -281,7 +281,7 @@ export default function ArticleList() {
 
 
       const response = await axios.delete(
-        `moderator/delete/${clickedArticle.id}`
+        `/moderator/delete/${clickedArticle.id}`
       ).then(res => {
         if (res.data.success === 1) {
           console.log("rejected article added");
