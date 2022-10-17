@@ -19,7 +19,6 @@ const ObjectId = require("mongodb").ObjectId;
 // This section will help you get a list of all the records.
 articleRoutes.route("/article").get(function (req, res) {
   let db_connect = dbo.getDb("cise");
-  console.log("HERe")
   db_connect
     .collection("articles")
     .find({})
