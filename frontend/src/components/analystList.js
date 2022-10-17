@@ -10,7 +10,7 @@ import { Button } from "@mui/material";
 export default function ArticleList() {
   const [articles, setArticles] = useState([]);
   const rows = articles.map(
-    ({ _id, title, author, year, volume, number, pages, doi, claim, }) => ({
+    ({ _id, title, author, year, volume, number, pages, doi, claim,claimStrength }) => ({
       id: _id,
       title,
       author,
@@ -20,6 +20,7 @@ export default function ArticleList() {
       pages,
       doi,
       claim,
+      claimStrength
     })
   );
 
@@ -47,16 +48,16 @@ export default function ArticleList() {
       InputComponent: InputNumberInterval,
     },
   ];
-
   const columns = [
     { field: "title", headerName: "Title", width: 100 },
     { field: "author", headerName: "Author", width: 100 },
     { field: "year", headerName: "Year", width: 100, filterOperators: quantityOnlyOperators },
-    { field: "volume", headerName: "Volume", width: 100 },
+    { field: "volume", headerName: "Volume", widtWh: 100 },
     { field: "number", headerName: "Number", width: 100 },
     { field: "pages", headerName: "Pages", width: 100 },
     { field: "doi", headerName: "Doi", width: 100 },
-    { field: "claim", headerName: "Claim Type", width: 100 },
+    { field: "claim", headerName: "Claim Type", width: 200 },
+    { field: "claimStrength", headerName: "Claim Strength", width: 150 },
     {
       field: "approve",
       headerName: "Approve",
@@ -70,7 +71,7 @@ export default function ArticleList() {
             onClick={(event) => {
               handleAccept(_id);
               deleteHandler(_id);
-              document.location.reload(true); 
+              document.location.reload(true);
             }}
           >
             Approve
@@ -99,32 +100,32 @@ export default function ArticleList() {
         );
       }
     },
-  ];
 
+  ];
 
   // This method fetches the records from the database.
   useEffect(() => {
-    async function getArticles() {
+    async function getModeratorArticles() {
       await axios.get("/analyst").then((res) => {
         console.log(res);
         if (!res.statusText === "OK") {
           console.log("checking for articles");
-          const message = `An error occurred: /analyst `;
+          const message = `An error occurred: /article `;
           window.alert(message);
           return;
         }
         const articles = res.data;
-        console.log(articles);
         setArticles(articles);
       });
     }
 
-    getArticles();
+    getModeratorArticles();
     return;
-  }, []);
+  }, [articles.length]);
+
 
   //For Year Search
-  const [filterModel, setFilterModel] = React.useState({
+  const [setFilterModel] = React.useState({
     items: [
       {
         id: 1,
@@ -218,43 +219,6 @@ export default function ArticleList() {
   };
 
 
-  //ON CLICK HANDLE STUFF
-  const handleOnCellClick = (param) => {
-    console.log("clicked:", param);
-  };
-
-  //function to delete row from datagrid
-  const deleteRow = (clickedArticle) => {
-    setArticles(articles.filter((article) => article.row._id !== clickedArticle.row._id));
-    console.log(clickedArticle.row._id);
-  }
-
-
-  //When analyst clicks reject, that articles data is collected and added to the rejected collection
-  async function handleReject(clickedArticle) {
-
-    const rejectedArticle = {
-          title: clickedArticle.row.title,
-          author: clickedArticle.row.author,
-          year: clickedArticle.row.year,
-          volume: clickedArticle.row.volume,
-          number: clickedArticle.row.number,
-          pages: clickedArticle.row.pages,
-          doi: clickedArticle.row.doi,
-          claim: clickedArticle.row.claim,
-        }
-
-    await axios.post('/rejected/add', rejectedArticle).then(res => {
-      if (res.data.success === 1) {
-        console.log("rejected article added");
-      }
-    })
-      .catch(error => {
-        window.alert(error);
-        return;
-      });
-  }
-
   //When analyst clicks accpet, that article's data is collected adn added to the articles collection
   async function handleAccept(clickedArticle) {
 
@@ -267,6 +231,7 @@ export default function ArticleList() {
       pages: clickedArticle.row.pages,
       doi: clickedArticle.row.doi,
       claim: clickedArticle.row.claim,
+      claimStrength: clickedArticle.row.claimStrength,
     }
 
     await axios.post('/article/add', acceptedArticle).then(res => {
@@ -279,17 +244,76 @@ export default function ArticleList() {
         return;
       });
   }
+
+  //function to add article to rejected collection
+  async function  handleReject(clickedArticle) {
+
+    const rejectedArticle = {
+      title: clickedArticle.row.title,
+      author: clickedArticle.row.author,
+      year: clickedArticle.row.year,
+      volume: clickedArticle.row.volume,
+      number: clickedArticle.row.number,
+      pages: clickedArticle.row.pages,
+      doi: clickedArticle.row.doi,
+      claim: clickedArticle.row.claim,
+      claimStrength: clickedArticle.row.claimStrength,
+
+    }
+
+    await axios.post('/rejected/add', rejectedArticle).then(res => {
+      if (res.data.success === 1) {
+        console.log("rejected article added");
+      }
+    })
+      .catch(error => {
+        window.alert(error);
+        return;
+      });
+
+  }
+
+
+  //function to delete element from datagrid    NOT WORKING
+  const deleteHandler = async (clickedArticle) => {
+    try {
+      console.log(`/analyst/${clickedArticle.id}`)
+
+
+      const response = await axios.delete(
+        `/analyst/delete/${clickedArticle.id}`
+      ).then(res => {
+        if (res.data.success === 1) {
+          console.log("rejected article added");
+        }
+      })
+
+      console.log(response);
+
+    } catch (error) {
+      console.log("Something went wrong", error)
+    }
+  }
+
+
+
+  //ON CLICK HANDLE STUFF, FOR TESTING DELETE ME FOR FINAL
+  const handleOnCellClick = (param) => {
+    console.log("clicked:", param)
+
+  }
+
   // This following section will display the table with the records of individuals.
   return (
     <div>
-      <h3 className="Analyst-list">Analyst List</h3>
+      <h3 className="Articles to be analysed">Articles To Be Analysed</h3>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           disableColumnFilter
           rows={rows}
           columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
+          pageSize={10}
+          rowsPerPageOptions={[10]}
           onCellClick={handleOnCellClick}
           components={{ Toolbar: GridToolbar }}
           componentsProps={{
@@ -298,7 +322,6 @@ export default function ArticleList() {
               quickFilterProps: { debounceMs: 500 },
             },
           }}
-          filterModel={filterModel}
           onFilterModelChange={(model) => setFilterModel(model)}
         />
       </div>

@@ -62,7 +62,7 @@ export default function ArticleList() {
   // This method fetches the records from the database.
   useEffect(() => {
     async function getArticles() {
-      await axios.get("/article").then((res) => {
+      await axios.get("http://localhost:5000/article").then((res) => {
         console.log(res);
         if (!res.statusText === "OK") {
           console.log("checking for articles");

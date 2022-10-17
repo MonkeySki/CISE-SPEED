@@ -281,7 +281,7 @@ export default function ArticleList() {
 
 
       const response = await axios.delete(
-        `moderator/delete/${clickedArticle.id}`
+        `/moderator/delete/${clickedArticle.id}`
       ).then(res => {
         if (res.data.success === 1) {
           console.log("rejected article added");

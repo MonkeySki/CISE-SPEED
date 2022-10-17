@@ -59,7 +59,6 @@ articleRoutes.route("/article/add").post(function (req, response) {
 
   const evideince = new article(myobj);
   db_connect.collection("articles").insertOne(evideince, function (err, res) {
-    console.log("HERE")
     if (err) throw err;
     response.json(res);
   });
@@ -186,8 +185,8 @@ articleRoutes.route("/analyst").get(function (req, res) {
     });
 });
 
-// This section will help you get a single analyst record by id
 articleRoutes.route("/analyst/:id").get(function (req, res) {
+  console.log("Id")
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   db_connect
@@ -197,6 +196,19 @@ articleRoutes.route("/analyst/:id").get(function (req, res) {
       res.json(result);
     });
 });
+
+articleRoutes.route('/analyst/delete/:id').delete(function (req, res) {
+  console.log("HeRe")
+  let db_connect = dbo.getDb("cise");
+
+  let myquery = { _id: ObjectId(req.params.id) };
+  db_connect
+    .collection("analyst")
+    .deleteOne(myquery, function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+})
 
 
 
@@ -272,7 +284,6 @@ articleRoutes.route("/rejected/add").post(function (req, response) {
 
   const evideince = new article(myobj);
   db_connect.collection("rejected").insertOne(evideince, function (err, res) {
-    console.log("HERE")
     if (err) throw err;
     response.json(res);
   });
