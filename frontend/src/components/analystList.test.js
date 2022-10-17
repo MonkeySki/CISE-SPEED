@@ -12,7 +12,7 @@ describe("Testing analystList.js", () => {
         const navigateCreatePage = screen.getByRole("link", { name: /Analyst/i })
         await user.click(navigateCreatePage);
 
-        const analystPage = screen.getByRole("heading", { name: "Articles to be Analyzed" })
+        const analystPage = screen.getByRole("heading", { name: "Articles To Be Analyzed" })
 
         expect(analystPage).toBeInTheDocument();
     })
