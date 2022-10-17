@@ -293,6 +293,7 @@ export default function ArticleList() {
     } catch (error) {
       console.log("Something went wrong", error)
     }
+    navigate("/");
   }
 
 
