@@ -64,7 +64,7 @@ export default function Create() {
     // When a post request is sent to the create url, we'll add a new record to the database.
     const newArticle = { ...form };
 
-    await axios.post('http://localhost:5000/article/add', newArticle).then(res => {
+    await axios.post('/moderator/add', newArticle).then(res => {
       if (res.data.success === 1) {
         console.log("evidence added");
       }
