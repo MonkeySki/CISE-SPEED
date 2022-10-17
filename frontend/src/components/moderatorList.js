@@ -246,6 +246,8 @@ export default function ArticleList() {
         window.alert(error);
         return;
       });
+
+    navigate("/");
   }
 
   //function to add article to rejected collection
@@ -273,6 +275,8 @@ export default function ArticleList() {
         window.alert(error);
         return;
       });
+    
+    navigate("/");
   }
 
 
@@ -293,7 +297,7 @@ export default function ArticleList() {
     } catch (error) {
       console.log("Something went wrong", error)
     }
-    navigate("/");
+    
   }
 
 
