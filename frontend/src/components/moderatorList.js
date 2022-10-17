@@ -74,7 +74,6 @@ export default function ArticleList() {
             onClick={(event) => {
               handleAccept(_id);
               deleteHandler(_id);
-              document.location.reload(true);
             }}
           >
             Approve
