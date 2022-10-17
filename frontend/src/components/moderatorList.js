@@ -243,6 +243,7 @@ export default function ArticleList() {
         window.alert(error);
         return;
       });
+      navigate("/moderator");
   }
 
   //function to add article to rejected collection
@@ -270,7 +271,7 @@ export default function ArticleList() {
         window.alert(error);
         return;
       });
-
+      navigate("/moderator");
   }
 
 
