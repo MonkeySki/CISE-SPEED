@@ -94,7 +94,6 @@ export default function ArticleList() {
             onClick={(event) => {
               handleReject(_id);
               deleteHandler(_id);
-              document.location.reload(true)
             }}
           >
             Reject
@@ -239,14 +238,16 @@ export default function ArticleList() {
     await axios.post('/analyst/add', acceptedArticle).then(res => {
       if (res.data.success === 1) {
         console.log("evidence added");
-        navigate("/");
       }
     })
       .catch(error => {
         window.alert(error);
         return;
       });
-
+      
+    const message = 'Article Accepted';
+    window.alert(message);
+    navigate("/");  
   }
 
   //function to add article to rejected collection
