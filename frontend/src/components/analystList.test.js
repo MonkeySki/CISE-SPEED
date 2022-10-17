@@ -12,9 +12,9 @@ describe("Testing analystList.js", () => {
         const navigateCreatePage = screen.getByRole("link", { name: /Analyst/i })
         await user.click(navigateCreatePage);
 
-        const moderatorPage = screen.getByRole("heading", { name: "Articles to be analyzed" })
+        const analystPage = screen.getByRole("heading", { name: "Articles to be analyzed" })
 
-        expect(moderatorPage).toBeInTheDocument();
+        expect(analystPage).toBeInTheDocument();
     })
 
     it("Modertor page article fields present", async()=>{
