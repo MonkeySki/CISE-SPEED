@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import SyncIcon from '@mui/icons-material/Sync';
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router";
 
 export default function ArticleList() {
   const [articles, setArticles] = useState([]);
@@ -23,6 +24,8 @@ export default function ArticleList() {
       claimStrength
     })
   );
+
+  const navigate = useNavigate();
 
   //So we can search a year range.
   const quantityOnlyOperators = [
